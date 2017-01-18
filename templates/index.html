@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<h2>Code4Lib 2017 Preconference</h2>
+<h1>{{ title }}</h1>
+<p class="lead">Jeremy Nelson<br>
+Metadata and Systems Librarian, 
+<a href="https://www.coloradocollege.edu">Colorado College</a> &amp;<br>
+CTO, KnowledgeLinks.io</p>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-block">
+                <h4 class="card-title">Colorado College ETD <a href="{{ url_for('slide', page='cc-etd') }}"><i class="fa fa-share" aria-hidden="true"></i></a></h4>
+                <h6 class="card-subtitle mb-2 text-muted">Blazegraph Triplestore, Fedora 3.8, RDF Framework</h6>
+                <p class="card-text">
+                    This application allows seniors at Colorado College to 
+                    self-submit their thesis along with any accompanying 
+                    datasets, video, or audio to Colorado College's Fedora-based 
+                    institutional repository.
+                </p>
+                <a href="https://github.com/Tutt-Library/ccetd" class="card-link">Source Code Repository</a>
+                <a href="https://discovery.coloradocollege.edu/etd/" class="card-link">Live Application</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <section class="card">
+            <div class="card-block">
+                <h4 class="card-title">Colorado Alliance BIBCAT Pilot <a href="{{ url_for('slide', page='coalliance-bibcat') }}"><i class="fa fa-share" aria-hidden="true"></i> </a></h4>
+                <h6 class="card-subtitle mb-2 text-muted">Blazegraph Triplestore, RDF Framework, BIBCAT </h6>
+                <p class="card-text">
+                   Using selected MARC 21 records from Colorado College and the University of Colorado Boulder that were generated from the Alliance's Gold Rush comparison service, this project uses the BIBCAT -short for bibliographic catalog- an open-source project originally funded by a contract for the Library of Congress to transform MARC 21 into BIBFRAME that is then published to the web as Schema.org JSON-LD for indexing by Google, Bing, and other search engines. BIBCAT uses RDF rules that map MARC 21 fields and subfields to BIBFRAME 2.0 entities and properties. 
+                </p>
+                <a href="https://github.com/KnowledgeLinks/alliance-bibcat.git" 
+                    class="card-link">Source Code Repository</a>
+                <a href="http://bibcat.coalliance.org/" class="card-link">Live Application</a>
+
+            </div>
+        </section>
+    </div>
+    <div class="col-md-4">
+        <section class="card">
+            <div class="card-block">
+                <h4 class="card-title">DPLA Service Hub for Colorado/Wyoming 
+                 <a href="{{ url_for('slide', page='dpla-service-hub') }}"><i class="fa fa-share" aria-hidden="true"></i> </a>
+                </h4>
+                <h6 class="card-subtitle mb-2 text-muted">Blazegraph Triplestore, RDF Framework, BIBCAT</h6>
+                <p class="card-text">
+                    A State Library of Colorado sponsored effort to aggregrate the metadata from across different libraries and museums in Colorado and Wyoming and provide a JSON-LD DPLA Map v4 feed to DP.LA. This project uses BIBCAT to transform different formats and vocabularies from multiple sources including Denver Public Library's RDF Dublin Core, Colorado College and University of Wyoming MODS metadata, and a metadata provided as custom CSV file from the History Colorado museum into BIBFRAME 2.0 entities stored in a triplestore. BIBCAT uses RDF-based rules to ingest these sources while allowing for easy customization and modification through simple editing of RDF turtle file.
+               </p>
+                <a href="https://github.com/KnowledgeLinks/alliance-bibcat.git" 
+                    class="card-link">Source Code Repository</a>
+
+
+            </div>
+        </section>
+    </div>
+
+</div>
+{% endblock main %}
