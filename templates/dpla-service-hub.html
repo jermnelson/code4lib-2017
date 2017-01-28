@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<h2>{{ title }}</h2>
+<h1>DPLA Service Hub</h1>
+
+<div class="row">
+
+    <div class="col-md-4">
+        <section class="card">
+            <div class="card-block">
+                <h4 class="card-title"></h4>
+                <h6 class="card-subtitle mb-2 text-muted">Blazegraph Triplestore, RDF Framework, BIBCAT</h6>
+                <p class="card-text">
+                    A State Library of Colorado sponsored effort to aggregrate the metadata from across different libraries and museums in Colorado and Wyoming and provide a JSON-LD DPLA Map v4 feed to DP.LA. This project uses BIBCAT to transform different formats and vocabularies from multiple sources including Denver Public Library's RDF Dublin Core, Colorado College and University of Wyoming MODS metadata, and a metadata provided as custom CSV file from the History Colorado museum into BIBFRAME 2.0 entities stored in a triplestore. BIBCAT uses RDF-based rules to ingest these sources while allowing for easy customization and modification through simple editing of RDF turtle file.
+               </p>
+                <a href="https://github.com/KnowledgeLinks/dpla-service-hub.git" 
+                    class="card-link">Source Code Repository</a>
+
+
+            </div>
+        </section>
+    </div>
+    <div class="col-md-8">
+        <article class="jumbotron" id="dpla-service-hub-bml-1">
+            <h1>Project Iterations</h1>
+            <h2>BML Iteration One</h2>
+            <h3>Build</h3>
+                <p class="lead">
+                The first proof of concept for the project started in September of 2016 with 
+                </p>
+            <h3>Measure</h3>
+                <p class="lead">
+
+                </p>
+            <h3>Learn</h3>
+                <p class="lead">
+
+                </p>
+        </article>
+    </div>
+</div>
+{% endblock main %}
