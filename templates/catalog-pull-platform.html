@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% set category='technology' %}
+
+{% block main %}
+<h2>{{ title }}</h2>
+<h1>Technology - Catalog Pull Platform</h1>
+<p class="lead"> The technology used in this pre-conference was initially created for a 
+Library of Congress funded project which later became two open-source projects; 
+<a href="https://github.com/KnowledgeLinks/rdfw-bibcat">BIBCAT</a> and the 
+<a href="https://github.com/KnowledgeLinks/rdfframework">RDF Framework</a>.
+</p>
+
+
+<div class="row">
+    <div class="col-md-4">
+        <h3>BIBCAT</h3>
+        <p>{{ request.path }}</p>
+    </div>
+    <div class="col-md-4">
+        <h3>RDF Framework</h3>
+    </div>
+    <div class="col-md-4">
+        <h4>What do we mean by &hellip;?</h4>
+        <ul>
+            <li>Microservices</li>
+
+        </ul>
+    </div>
+</div>
+{% endblock %}

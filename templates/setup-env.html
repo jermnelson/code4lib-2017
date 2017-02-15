@@ -1,10 +1,57 @@
 {% extends 'base.html' %}
 
+{% set category='activity' %}
+
+{% block custom_css %}
+<style>
+    .step {
+        background-color: rgb(48,48,48);
+        color: rgb(255,255,255);
+        padding: .5em;
+    }
+
+</style>
+{% endblock %}
 {% block main %}
 <h2>{{ title }}</h2>
 <h1>Setup Environment</h1>
 
-<p>{{ request.path }}</p>
+<div class="row">
+    <div class="col-md-8"> 
+        <h2 id="install-python">1. Download and install Python 3</h2>  
+        <div class="step">
+            <img  
+                 src="{{ url_for('static', filename='images/python-logo.png') }}">
+            <p>
+                Download and install the latest Python 3 distribution (currently 
+                3.6) from the <a href="https://www.python.org/downloads/">Python website</a>. 
+                If you already have Python 3 installed,
+                please go to the <a href="#project-dir">next step</a>
 
-
+            </p>
+        </div>
+        <h2 id="project-dir">2. Create a Project Directory</h2> 
+        <h2 id="virtualenv">3. Create a Python Virtual environment</h2>
+    </div>
+    <div class="col-md-4">
+        <h3>Steps for creating a development environment</h3>
+        <ol>
+            <li>Download and install latest Python 3  
+                <a href="https://www.python.org/downloads/">distribution</a> 
+                <a href="#install-python"><i class="fa fa-caret-square-o-right"></i></a>
+            </li>
+            <li>Create a directory for your project
+                <a href="#project-dir"><i class="fa fa-caret-square-o-right"></i></a>
+            </li>
+            <li>Create a Python Virtual environment
+                <a href="#virtualenv"><i class="fa fa-caret-square-o-right"></i></a>
+            </li>
+            <li>Install dependencies with PIP</li>
+            <li>Download Blazegraph or use the <a href="#">jermnelson/semantic-server-core</a>
+                Docker image</li>
+            <li>Create an instance directory in Project directory</li>
+            <li>Create a <code>config.py</code> inside the instance directory</li> 
+        </ol>
+    </div>
+</div>
 {% endblock %}

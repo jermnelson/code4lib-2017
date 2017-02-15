@@ -1,9 +1,17 @@
 {% extends 'base.html' %}
 
+{% set category='project' %}
+
 {% block main %}
 <h2>{{ title }}</h2>
 <h1>Colorado Alliance BIBCAT Pilot</h1>
-
-
-
+<p class="lead">
+    Using selected MARC 21 records from <a href="https://www.coloradocollege.edu/">Colorado College</a>
+    and the <a href="http://www.colorado.edu/">University of Colorado at Boulder</a> that were generated 
+    from the Alliance's Gold Rush comparison service, this project uses the BIBCAT to transform 
+    MARC 21 into BIBFRAME that is then published to the web as Schema.org JSON-LD for indexing by Google, 
+    Bing, and other search engines. BIBCAT uses RDF rules that map MARC 21 fields and subfields to 
+    BIBFRAME 2.0 entities and properties. 
+</p>
+<img src="{{ url_for('static', filename='images/cu-boulder-logo.png') }}" style="background-color: rgb(0,0,0)">
 {% endblock %}
