@@ -4,11 +4,20 @@
 
 {% block main %}
 <h2>{{ title }}</h2>
-<h1>Plains2Peaks.org - DPLA Service Hub for Colorado &amp; Wyoming</h1>
+<h1>Plains2Peaks.org<br><img alt="DPLA Logo" src="{{ url_for('static', filename='images/dpla-logo.png') }}"> Service Hub for Colorado &amp; Wyoming</h1>
 
 <div class="row">
 
     <div class="col-md-4">
+        <hr>
+        <h3>Pilot Participants</h3>
+        <img src="{{ url_for('static', filename='images/denver-public-logo.png') }}" 
+            class="img" style="background-color: rgb(75, 113, 144); width: 80%; padding: .5em"
+            alt="Denver Public Library">
+        <img src="{{ url_for('static', filename='images/university-of-wyoming.png') }}" alt="University of Wyoming" >
+        <img src="{{ url_for('static', filename="images/cc-logo.png") }}" style="height: 100px" alt="Colorado College">
+        <img src="{{ url_for('static', filename="images/marmot-logo.png") }}" style="height: 100px" alt="Marmot Library Network">
+        <img src="{{ url_for('static', filename="images/cospl-logo.png") }}"  alt="Colorado State Publication Library">
         <section class="card">
             <div class="card-block">
                 <h4 class="card-title"></h4>
@@ -22,6 +31,7 @@
 
             </div>
         </section>
+
     </div>
     <div class="col-md-8">
         <h1>Project Iterations</h1>
