@@ -35,7 +35,7 @@ Metadata and Systems Librarian,
                 <p class="card-text">
                    Using selected MARC 21 records from Colorado College and the University of Colorado Boulder that were generated from the Alliance's Gold Rush comparison service, this project uses the BIBCAT -short for bibliographic catalog- an open-source project originally funded by a contract for the Library of Congress to transform MARC 21 into BIBFRAME that is then published to the web as Schema.org JSON-LD for indexing by Google, Bing, and other search engines. BIBCAT uses RDF rules that map MARC 21 fields and subfields to BIBFRAME 2.0 entities and properties. 
                 </p>
-                <a href="https://github.com/KnowledgeLinks/alliance-bibcat.git" 
+                <a href="https://github.com/KnowledgeLinks/alliance-bibcat" 
                     class="card-link">Source Code Repository</a>
                 <a href="http://bibcat.coalliance.org/" class="card-link">Live Application</a>
 
@@ -52,12 +52,84 @@ Metadata and Systems Librarian,
                 <p class="card-text">
                     A State Library of Colorado sponsored effort to aggregrate the metadata from across different libraries and museums in Colorado and Wyoming and provide a JSON-LD DPLA Map v4 feed to DP.LA. This project uses BIBCAT to transform different formats and vocabularies from multiple sources including Denver Public Library's RDF Dublin Core, Colorado College and University of Wyoming MODS metadata, and a metadata provided as custom CSV file from the History Colorado museum into BIBFRAME 2.0 entities stored in a triplestore. BIBCAT uses RDF-based rules to ingest these sources while allowing for easy customization and modification through simple editing of RDF turtle file.
                </p>
-                <a href="https://github.com/KnowledgeLinks/alliance-bibcat.git" 
+                <a href="https://github.com/KnowledgeLinks/dpla-service-hub" 
                     class="card-link">Source Code Repository</a>
+
+                <a href="http://www.plains2peaks.org/" 
+                    class="card-link">Live Application</a>
 
 
             </div>
         </section>
+    </div>
+</div>
+<hr>
+<h2>Activities</h2>
+<div class="row">
+    <div class="col-md-3">
+        <section class="card">
+            <div class="card-block">
+                <h4 class="card-title">Setup Environment</h4>
+                <p class="card-text">
+                    We will go through the steps for setting up an development
+                    environment to build RDF Applications.
+                </p>
+                <a href="{{ url_for('slide', page='setup-env') }}" class="btn btn-sm btn-primary pull-right">
+                    Go <i class="fa fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </section>
+    </div>
+    <div class="col-md-3">
+        <section class="card">
+            <div class="card-block">
+                <h4 class="card-title">Creating a Knowledge Graph</h4>
+                <p class="card-text">
+                    We will create a knowledge graph 
+                    of your institution using RDF Turtle notation, <a href="http://schema.org/">Schema.org</a>
+                    and <a href="http://www.loc.gov/bibframe/docs/index.html">BIBFRAME</a>
+                    vocabularies.
+                </p>
+                <a href="{{ url_for('slide', page='create-knowledge-graph') }}" class="btn btn-sm btn-primary pull-right">
+                    Go <i class="fa fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </section>
+
+
+    </div>
+    <div class="col-md-3">
+        <section class="card">
+            <div class="card-block">
+                <h4 class="card-title">Ingesting MARC Records</h4>
+                <p class="card-text">
+                    Using example MARC21 records from various institutions (including your own if you
+                    have them!), we will ingest these MARC records into RDF Triples that is stored in 
+                    your triplestore.
+                </p>
+                <a href="{{ url_for('slide', page='ingesting-marc') }}" class="btn btn-sm btn-primary pull-right">
+                    Go <i class="fa fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </section>
+
+    </div>
+    <div class="col-md-3">
+        <section class="card">
+            <div class="card-block">
+                <h4 class="card-title">Ingesting Metadata</h4>
+                <p class="card-text">
+                    Based upon the work being done for the 
+                    <a href="{{ url_for('slide', page='dpla-service-hub') }}">DPLA Service Hub</a> 
+                    project, we will experiment with ingesting different metadata vocabularies
+                    and formats into our RDF triplestore.
+                </p>
+                <a href="{{ url_for('slide', page='ingesting-metadata') }}" class="btn btn-sm btn-primary pull-right">
+                    Go <i class="fa fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </section>
+
     </div>
 
 </div>
