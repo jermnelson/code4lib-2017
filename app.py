@@ -1,14 +1,46 @@
-from flask import Flask, render_template, redirect
-app = Flask(__name__)
+__author__ = "Jeremy Nelson"
 
-#@app.template_filter('is_active')
-#def active_category(path):
-#    if path.endswith('catalog-pull-platform'):
-#        return 'active'
-#    elif path.endswith('setup-env') or path.endswith('create-knowledge-graph') or\
-#         path.endswith('ingesting-marc') or path.endswith('ingesting-metadata'):
-#        return 'active'
-#    elif path.endswith('cc-etd') or path.end
+import glob
+import os
+import re
+import sys
+from flask import Flask, jsonify, render_template, redirect, request 
+from flask import session, url_for
+app = Flask(__name__, instance_relative_config=True)
+app.config.from_pyfile('config.py')
+
+PRESENTATION_ROOT = os.path.abspath(os.path.dirname(__file__))
+CONTENT = dict()
+for template in glob.iglob(os.path.join(PRESENTATION_ROOT, "templates/*.html")):
+    if template.endswith("base.html") or template.endswith("navbar.html") or\
+        template.endswith("footer.html"):
+         continue
+    content_key = os.path.split(template)[-1].split(".")[0] 
+    CONTENT[content_key] = []
+    for line in open(template, 'r'):
+        CONTENT[content_key].append(line)
+         
+@app.route("/search", methods=['GET', 'POST'])
+def search():
+    q = request.values.get('query')
+    hits = []
+    regex = re.compile(q)
+    for filename in CONTENT.keys():
+        for i, line in enumerate(CONTENT[filename]):
+            if regex.search(line):
+                hits.append((filename, i, line))
+    session['search-results'] = {"results": hits, "query": q}
+    return redirect(url_for('results'))
+
+@app.route("/hits")
+def results():
+    if 'search-results' in session:
+        results = session['search-results']
+    else:
+        results = {}
+    return render_template('search-results.html', results=results)
+    
+    
 
 @app.route("/<page>")
 def slide(page=None):
@@ -21,4 +53,5 @@ def default():
     return render_template("index.html")
 
 if __name__ == "__main__":
+    # Initialized content
     app.run(debug=True, host="0.0.0.0", port=5005)

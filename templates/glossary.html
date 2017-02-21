@@ -4,21 +4,34 @@
 
 {% block main %}
 <h1><i class="fa fa-th-list" aria-hidden="true"></i> Glossary</h1>
-<dl>
-    <dt>BIBCAT</dt>
-    <dd>An open-source project, originally contract by the Library of Congress &hellip;</dd>
-    <dt>BIBFRAME</dt>
-    <dd>An RDF vocabulary created by the Library of Congress &hellip;</dd>
-    <dt>Catalog Pull Platform</dt>
-    <dd>Inspired by the Lean Startup and the concept of Pull Platform, an overarching vision of approaching
-    bibliographic and operational &hellip; </dd>
-    <dt>Library Linked-Data</dt>
-    <dd>A growing </dd>
-    <dt>RDF</dt>
-    <dd>Short for <em>Resource Description Framework</em> a directed graph-based technology and
-    an official <a href="https://www.w3.org/RDF/">specification</a> of the 
-    <a href="https://www.w3.org/">W3C</a>. 
-    <dt>RDF Framework</dt>
-    <dd>An open-source project sponsored by KnowledgeLinks &hellip;</dd> 
+<dl class="row">
+    <dt id="bibcat" class="col-sm-3">BIBCAT</dt>
+        <dd class="col-sm-9">An open-source project, originally contract by the Library of Congress &hellip;</dd>
+    <dt id="bibframe" class="col-sm-3">BIBFRAME</dt>
+        <dd class="col-sm-9">An RDF vocabulary created by the Library of Congress &hellip;</dd>
+    <dt id="cpp" class="col-sm-3">Catalog Pull Platform</dt>
+        <dd class="col-sm-9">Inspired by the Lean Startup and the concept of Pull Platform, an overarching vision of approaching
+        bibliographic and operational &hellip; </dd>
+    <dt id="iri" class="col-sm-3">International Resource Identifier (IRI)</dt>
+        <dd class="col-sm-9">An network referencable resource that includes all URI (uniform resource identifier) and 
+        URL (uniform resource location). An IRI can include unicode characters within the addressable
+        string.</dd> 
+    <dt id="knowledge-graph" class="col-sm-3">Knowledge Graph</dt>
+        <dd class="col-sm-9">One or more RDF graphs that represent an institution's "facts" or information modeled as
+        relationships and entities as <a href="#iri">IRI</a></dd>  
+    <dt id="lld" class="col-sm-3">Library Linked-Data</dt>
+        <dd class="col-sm-9">A growing </dd>
+    <dt id="object" class="col-sm-3">Object (RDF)</dt>
+        <dd class="col-sm-9">A RDF Object &hellip;</dd>
+    <dt id="predicate" class="col-sm-3">Predicate (RDF)</dt>
+        <dd class="col-sm-9">A RDF Predicate &hellip;</dd>
+    <dt id="rdf" class="col-sm-3">RDF</dt>
+        <dd class="col-sm-9">Short for <em>Resource Description Framework</em> a directed graph-based technology and
+        an official <a href="https://www.w3.org/RDF/">specification</a> of the 
+        <a href="https://www.w3.org/">W3C</a>. 
+    <dt id="rdfframework" class="col-sm-3">RDF Framework</dt>
+        <dd class="col-sm-9">An open-source project sponsored by KnowledgeLinks &hellip;</dd> 
+    <dt id="subject" class="col-sm-3">Subject (RDF)</dt>
+        <dd class="col-sm-9">A RDF Subject &hellip;</dd>
 </dl>
 {% endblock main %}

@@ -11,9 +11,10 @@
     <div class="col-md-4">
         <hr>
         <h3>Pilot Participants</h3>
-        <img src="{{ url_for('static', filename='images/denver-public-logo.png') }}" 
+        <a href="https://www.denverlibrary.org/">
+            <img src="{{ url_for('static', filename='images/denver-public-logo.png') }}" 
             class="img" style="background-color: rgb(75, 113, 144); width: 80%; padding: .5em"
-            alt="Denver Public Library">
+            alt="Denver Public Library"></a>
         <img src="{{ url_for('static', filename='images/university-of-wyoming.png') }}" alt="University of Wyoming" >
         <img src="{{ url_for('static', filename="images/cc-logo.png") }}" style="height: 100px" alt="Colorado College">
         <img src="{{ url_for('static', filename="images/marmot-logo.png") }}" style="height: 100px" alt="Marmot Library Network">
@@ -27,11 +28,8 @@
                </p>
                 <a href="https://github.com/KnowledgeLinks/dpla-service-hub.git" 
                     class="card-link">Source Code Repository</a>
-
-
             </div>
         </section>
-
     </div>
     <div class="col-md-8">
         <h1>Project Iterations</h1>
@@ -64,5 +62,77 @@
 
         </article>
     </div>
+</div>
+<hr>
+<h2>Thanks &amp; Acknowledgments</h2>
+<div class="row">
+    <div class="col-md-3">
+        <div class="card" itemscope itemtype="http://schema.org/Person" style="width: 275px">
+            <i class="fa fa-user fa-5x mx-auto" style="padding: .5em"></i>
+            <div class="card-block">
+                <h4 class="card-title" itemprop="name">Regan Harper</h4>
+                <p class="card-text" itemprop="description">
+                    Regan Harper is the director of the Colorado State Library's
+                    Networking and Resource Sharing department &hellip;
+                </p>
+                <a href="mailto:harper_r@cde.state.co.us" class="btn btn-primary">
+                <i class="fa fa-id-card-o"></i>
+                Email</a>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-3">
+        <div class="card" itemscope itemtype="http://schema.org/Person" style="width: 275px">
+            <img class="card-img-top" itemprop="image"
+                src="{{ url_for('static', filename='images/LeighJeremias.png') }}" 
+                alt="Image of Leigh Jeremias">
+            <div class="card-block">
+                <h4 class="card-title" itemprop="name">Leigh Jeremias</h4>
+                <p class="card-text" itemprop="description">
+                    Leigh Jeremias is the Digital Collections Coordinator in 
+                    the Colorado State Library's
+                    Networking and Resource Sharing department &hellip;
+                </p>
+                <a href="mailto:ljeremias@coloradovirtuallibrary.org" class="btn btn-primary">
+                <i class="fa fa-id-card-o"></i>
+                Email</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+            <div class="card" itemscope itemtype="http://schema.org/Person" style="width: 275px">
+            <i class="fa fa-user fa-5x mx-auto" style="padding: .5em"></i>
+
+            <div class="card-block">
+                <h4 class="card-title" itemprop="name">Mark Ferguson</h4>
+                <p class="card-text" itemprop="description">
+                    Mark Ferguson is the System Administrator at the Colorado State Library's
+                    Networking and Resource Sharing department &hellip;
+                </p>
+                <a href="mailto:mferguson@coloradovirtuallibrary.org" class="btn btn-primary">
+                <i class="fa fa-id-card-o"></i>
+                Email</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card" itemscope itemtype="http://schema.org/Person">
+            <img class="card-img-top" itemprop="image"
+                src="{{ url_for('static', filename='images/CraigHaggit.png') }}" 
+                
+                alt="Image of Craig Haggit">
+            <div class="card-block">
+                <h4 class="card-title" itemprop="name">Craig Haggit</h4>
+                <p class="card-text" itemprop="description">
+                    Craig Haggit is the Senior Cataloger at Denver Public Library &hellip;
+                </p>
+                <a href="mailto:#" class="btn btn-primary">
+                <i class="fa fa-id-card-o"></i>
+                Email</a>
+            </div>
+        </div>
+    </div>
+
 </div>
 {% endblock main %}

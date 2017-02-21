@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<h2>Search Results</h2>
+<h3>Query: <em>{{ results.query }}</em></h3>
+<p>Number of hits: {{ results.results|length }}</p>
+<table class="table table-striped">
+    <thead class='thead-inverse'>
+        <tr>
+            <th>Slide</th>
+            <th>Line #</th>
+            <th>Text</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for result in results.results %}
+        <tr>
+            <td>
+                <a href="{{ url_for('slide', page=result.0) }}">{{ result.0 }}</a>
+            </td>
+            <td>{{ result.1 }}</td>
+            <td>{{ result.2|safe }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock main %}

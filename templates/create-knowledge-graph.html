@@ -7,12 +7,25 @@
 <h1>Creating a Knowledge Graph</h1>
 
 <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-3 alert alert-success">
         <h4>What do we mean when we say "Knowledge Graph"?</h4>
-
+        <p>One or more RDF graphs that represent an institution's "facts" or information modeled as
+        relationships and entities as <a href="{{ url_for('slide', page='glossary') }}#iri">IRI</a>
+        </p>  
     </div>
     <div class="col-md-8">
+        <h2>Manually with a Text Editor</h2>
 
+
+        <hr>
+        <h2>Programmaticlly with Python &amp; rdflib</h2>
+        <ol>
+            <li><kbd>(p3-env)&gt; python</kbd></li>
+            <li><pre class="bg-invert">
+>> import rdflib
+>> cc = rdflib.ConjuctiveGraph()
+>> cc.parse("colorado-college.ttl", format='turtle')
+        </pre></li> 
     </div>
 </div>
 {% endblock %}
