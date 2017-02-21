@@ -14,32 +14,133 @@
 {% endblock %}
 {% block main %}
 <h2>{{ title }}</h2>
-<h1>Setup Environment</h1>
+<h1 itemprop="title">Setup Environment</h1>
 
 <div class="row">
     <div class="col-md-8"> 
         <h2 id="install-python">1. Download and install Python 3</h2>  
-        <div class="step">
-            <img  
-                 src="{{ url_for('static', filename='images/python-logo.png') }}">
-            <p>
-                Download and install the latest Python 3 distribution (currently 
-                3.6) from the <a href="https://www.python.org/downloads/">Python website</a>. 
-                If you already have Python 3 installed,
-                please go to the <a href="#project-dir">next step</a>
+        <div class="row">
+            <div class="col-sm-5 offset-sm-1">
+                <img src="{{ url_for('static', filename='images/python-logo.png') }}"  
+                    style="background-color: black">
+            </div>
+            <div class="col-sm-6">
+                <p>
+                    Download and install the latest Python 3 distribution (currently 
+                    3.6) from the <a href="https://www.python.org/downloads/">Python website</a>. 
+                    If you already have Python 3 installed,
+                    please go to the <a href="#project-dir">next step</a>
 
-            </p>
+                </p>
+            </div>
         </div>
         <h2 id="project-dir">2. Create a Project Directory</h2> 
+            <div class="row">
+                <div class="col-sm-6 offset-sm-1">
+                    <h3>Microsoft Windows</h3>
+                    <kbd>mkdir C:\tmp\rdf-app</kbd>
+                </div>
+                <div class="col-sm-5">
+                    <h3>Posix (Linux, MacOS)</h3>
+                    <kbd>mkdir /tmp/rdf-app</kbd>
+                </div>
+            </div>
         <h2 id="virtualenv">3. Create a Python Virtual environment</h2>
+            <div class="row">
+                <div class="col-sm-8 offset-sm-1">
+                    <h3>Microsoft Windows</h3>
+                    <ol>
+                        <li><kbd>python3 -m venv C:\tmp\py3-env</kbd></li>
+                        <li><kbd>C:\tmp\py3-env\Scripts\activate.bat</kbd></li>
+                        <li><kbd>(py3-env)&gt; C:\</kbd></li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-8 offset-sm-1">
+                    <h3>Posix (Linux, MacOS)</h3>
+                    <ol>
+                        <li><kbd>python3 -m venv /tmp/py3-env</kbd></li>
+                        <li><kbd>source /tmp/py3-env/bin/activate</kbd></li>
+                        <li><kbd>(py3-env)&gt; /</kbd></li>
+                    </ol>
+                </div>
+            </div>
+
         <h2 id="install-pip">4. Install dependencies with PIP</h2>
+            <div class="row">
+                <div class="col-sm-11 offset-sm-1">
+                    <h3>Download <code>requirements.txt</code></h3>
+                    <p> Download and save the preconference requirements.txt (available on Github  
+                        at <a href="#">requirements.txt</a>) to your root Project directory.
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-9 offset-sm-1">
+                    <h3>Microsoft Windows</h3>
+                    <ol>
+                        <li><kbd>(py3-env)&gt;cd C:\tmp\rdf-app</kbd></li>
+                        <li>
+                            <kbd>(py3-env)C:\tmp\rdf-app&gt;pip install -r requirements.txt</kbd>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-9 offset-sm-1">
+                    <h3>Posix (Linux, MacOS)</h3>
+                    <ol>
+                        <li><kbd>(py3-env)&gt; cd /tmp/rdf-app</kbd></li>
+                        <li>
+                            <kbd>(py3-env)cd /tmp/rdf-app&gt;pip install -r requirements.txt</kbd>
+                        </li>  
+                    </ol>
+                </div>
+            </div>
+
         <h2 id="run-triplestore">5. Run RDF Triplestore</h2>
-        <div class='step'>
-            Download Blazegraph or use the 
-            <a href="https://hub.docker.com/r/jermnelson/semantic-server-core/">jermnelson/semantic-server-core</a><br>
-            Docker image with <code>docker run -p 8080:8080 -p 9999:9999 jermnelson/semantic-server-core:dev</code>.
+        <div class='row'>
+            <div class="col-sm-11 offset-sm-1">
+                Download Blazegraph or use the 
+                <a href="https://hub.docker.com/r/jermnelson/semantic-server-core/">jermnelson/semantic-server-core</a>
+                Docker image.
+            </div>
+            <div class="col-sm-11 offset-sm-1">
+             <kbd>docker run -p 8080:8080 -p 9999:9999 jermnelson/semantic-server-core:dev</kbd>
+            </div>
         </div>
         <h2 id="instance-config">6. Create an instance directory and <code>config.py</code></h2>
+            <div class="row">
+                <div class="col-sm-9 offset-sm-1">
+                    <h3>Microsoft Windows</h3>
+                    <ol>
+                        <li>
+                            <kbd>(py3-env)C:\tmp\rdf-app&gt;mkdir instance</kbd>
+                        </li>
+                        <li>
+                            <kbd>(py3-env)C:\tmp\rdf-app&gt;touch instance\config.py</kbd>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-9 offset-sm-1">
+                    <h3>Posix (Linux, MacOS)</h3>
+                    <ol>
+                        <li>
+                            <kbd>(py3-env)/tmp/rdf-app&gt;mkdir instance</kbd>
+                        </li>
+                        <li>
+                            <kbd>(py3-env)/tmp/rdf-app&gt;touch instance/config.pyt</kbd>
+                        </li>  
+ 
+                    </ol>
+                </div>
+            </div>
+
+
+
     </div>
     <div class="col-md-4">
         <h3>Steps for creating a development environment</h3>
