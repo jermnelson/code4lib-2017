@@ -17,7 +17,8 @@ def populate_content():
     global CONTENT
     for template in glob.iglob(os.path.join(PRESENTATION_ROOT, "templates/*.html")):
         if template.endswith("base.html") or template.endswith("navbar.html") or\
-            template.endswith("footer.html") or template.endswith("favicon.html"):
+            template.endswith("footer.html") or template.endswith("favicon.html") or\
+            template.endswith("ico.html"):
             continue
         content_key = os.path.split(template)[-1].split(".")[0] 
         CONTENT[content_key] = []
