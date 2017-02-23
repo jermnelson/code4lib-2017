@@ -2,6 +2,7 @@
 
 {% block main %}
 <h2>Search Results</h2>
+{% if results %}
 <h3>Query: <em>{{ results.query }}</em></h3>
 <p>Number of hits: {{ results.results|length }}</p>
 <table class="table table-striped">
@@ -24,4 +25,7 @@
     {% endfor %}
     </tbody>
 </table>
+{% else %}
+<p class="lead">No search results</p>
+{% endif %}
 {% endblock main %}

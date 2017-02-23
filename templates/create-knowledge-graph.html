@@ -18,9 +18,9 @@
     <div class="col-md-8">
         <h2>Manually with a Text Editor</h2>
 <pre>
-@prefix rdf: <>
-@prefix rdfs: <>
-@prefix schema: &lt;http://schema.org/&gt;
+@prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; .
+@prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt; .
+@prefix schema: &lt;http://schema.org/&gt; .
 
 &lt;http://intro2libsys.info/code4lib-2017&gt; a schema:EducationEvent ;
     schema:endDate "2017-03-11T26:59:99" ;
@@ -31,10 +31,10 @@
         <h2>Programmatically with Python &amp; rdflib</h2>
         <ol>
             <li><kbd>(p3-env)&gt; python</kbd></li>
-            <li><pre class="bg-invert">
+            <li><pre><code>
 >> import rdflib
 >> SCHEMA = rdflib.Namespace("http://schema.org/")
->> preconference = rdflib.ConjuctiveGraph()
+>> preconference = rdflib.ConjunctiveGraph()
 >> preconference_iri = rdflib.URIRef("http://intro2libsys.info/code4lib-2017")
 >> preconference.add((preconference_iri,
                       rdflib.RDF.type,
@@ -42,7 +42,16 @@
 >> preconference.add((preconference_iri,
                       SCHEMA.startDate,
                       rdflib.Literal("2017-03-11T20:00:00")))
-        </pre></li> 
+            </code></pre></li> 
     </div>
 </div>
+<hr>
+<h2>Example One: Colorado College</h2>
+<img src="{{ url_for('static', filename='images/cc-logo.png') }}">
+<div class="row">
+    
+
+</div>
+<h2>Example Two: Kean University</h2>
+<img src="{{ url_for('static', filename='images/Kean_University_Logo.png') }}">
 {% endblock %}
