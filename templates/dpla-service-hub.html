@@ -4,12 +4,22 @@
 
 {% block main %}
 <h2>{{ title }}</h2>
-<h1>Plains2Peaks.org<br><img alt="DPLA Logo" src="{{ url_for('static', filename='images/dpla-logo.png') }}"> Service Hub for Colorado &amp; Wyoming</h1>
-
+<h1>Plains2Peaks.org - DPLA Service Hub for Colorado &amp; Wyoming</h1>
+<p class="lead">
+    This project uses BIBCAT to transform different formats and vocabularies 
+    from multiple sources including Denver Public Library's RDF Dublin Core, 
+    Colorado College and University of Wyoming MODS metadata, and a metadata 
+    provided as custom CSV file from the History Colorado museum into 
+    BIBFRAME 2.0 entities stored in a triplestore. BIBCAT uses RDF-based rules 
+    to ingest these sources while allowing for easy customization and modification 
+    through simple editing of RDF turtle file.
+</p>
 <div class="row">
 
     <div class="col-md-4">
-        <hr>
+        {% include 'cards/dpla-plains2peaks.html' %}
+    </div>
+    <div class="col-md-8">
         <h3>Pilot Participants</h3>
         <a href="https://www.denverlibrary.org/">
             <img src="{{ url_for('static', filename='images/denver-public-logo.png') }}" 
@@ -19,20 +29,9 @@
         <img src="{{ url_for('static', filename="images/cc-logo.png") }}" style="height: 100px" alt="Colorado College">
         <img src="{{ url_for('static', filename="images/marmot-logo.png") }}" style="height: 100px" alt="Marmot Library Network">
         <img src="{{ url_for('static', filename="images/cospl-logo.png") }}"  alt="Colorado State Publication Library">
-        <section class="card">
-            <div class="card-block">
-                <h4 class="card-title"></h4>
-                <h6 class="card-subtitle mb-2 text-muted">Blazegraph Triplestore, RDF Framework, BIBCAT</h6>
-                <p class="card-text">
-                    A State Library of Colorado sponsored effort to aggregrate the metadata from across different libraries and museums in Colorado and Wyoming and provide a JSON-LD DPLA Map v4 feed to DP.LA. This project uses BIBCAT to transform different formats and vocabularies from multiple sources including Denver Public Library's RDF Dublin Core, Colorado College and University of Wyoming MODS metadata, and a metadata provided as custom CSV file from the History Colorado museum into BIBFRAME 2.0 entities stored in a triplestore. BIBCAT uses RDF-based rules to ingest these sources while allowing for easy customization and modification through simple editing of RDF turtle file.
-               </p>
-                <a href="https://github.com/KnowledgeLinks/dpla-service-hub.git" 
-                    class="card-link">Source Code Repository</a>
-            </div>
-        </section>
-    </div>
-    <div class="col-md-8">
-        <h1>Project Iterations</h1>
+        <img src="{{ url_for('static', filename="images/wyoming-state-library.png") }}" alt="Wyoming State Library">
+        <hr>
+        <h3>Project Iterations</h3>
         <article class="jumbotron" id="dpla-service-hub-bml-1">
             <h2>BML Iteration One</h2>
             <h3>Build</h3>
@@ -120,6 +119,7 @@
         <div class="card" itemscope itemtype="http://schema.org/Person">
             <img class="card-img-top" itemprop="image"
                 src="{{ url_for('static', filename='images/CraigHaggit.png') }}" 
+                style="width: 223px"
                 
                 alt="Image of Craig Haggit">
             <div class="card-block">

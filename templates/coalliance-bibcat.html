@@ -5,18 +5,18 @@
 {% block main %}
 <h2>{{ title }}</h2>
 <h1>Colorado Alliance BIBCAT Pilot</h1>
-<img src="{{ url_for('static', filename="images/coalliance-logo.png") }}" class="pull-left img img-thumbnail">
+<div class="row">
+    <div class="col-md-4">
+        {% include 'cards/bibcat-coalliance.html' %}
+    </div>
+    <div class="col-md-8">
+        <img src="{{ url_for('static', filename='images/google-logo.png') }}"> 
+        <img src="{{ url_for('static', filename='images/cu-boulder-logo.png') }}" style="background-color: rgb(0,0,0)">
 
-<p class="lead">
-    Using selected MARC 21 records from <a href="https://www.coloradocollege.edu/">Colorado College</a>
-    and the <a href="http://www.colorado.edu/">University of Colorado at Boulder</a> that were generated 
-    from the Alliance's Gold Rush comparison service, this project uses the BIBCAT to transform 
-    MARC 21 into BIBFRAME that is then published to the web as Schema.org JSON-LD for indexing by Google, 
-    Bing, and other search engines. BIBCAT uses RDF rules that map MARC 21 fields and subfields to 
-    BIBFRAME 2.0 entities and properties. 
-</p>
-<img src="{{ url_for('static', filename='images/cu-boulder-logo.png') }}" style="background-color: rgb(0,0,0)">
-<a href="https://www.coloradocollege.edu/"><img src="{{ url_for('static', filename='images/cc-logo.png') }}"></a>
+        <a href="https://www.coloradocollege.edu/"><img src="{{ url_for('static', filename='images/cc-logo.png') }}"></a>
+    </div>
+</div>
+<hr>
 <div class="row">
     <div class="col-md-8">
         <h1>Project Iterations</h1>
@@ -24,15 +24,47 @@
             <h2>BML Iteration One</h2>
             <h3>Build</h3>
                 <p class="lead">
+                    The 
                 </p>
             <h3>Measure</h3>
-                <p class="lead">
+                <ul class="lead">
+                    <li>
+                        Number of BF Instances indexed by Google: <span>164,XXX</span>
+                    </li>
+                    {% set query_terms = ['Helen Hunt Jackson Ramona']%}
+                    <li>
+                        Ad Hoc General Google Searches:
+                        <ol>
+                            <li>
+                                <em>{{ query_terms.0 }}</em>:
+                            </li>
+                            <li></li>
+                        </ol>
+                    </li>
+                    <li>
+                        Site Specific Search on <a href="http://bibcat.coalliance.org">http://bibcat.coalliance.org</a>
+                        <ol>
+                            <li>
+                                <strong>{{ query_terms.0 }}</strong>:
+                            </li>
 
-                </p>
+
+                        </ol>
+                    </li>
+                    <li>
+
+                    </li>
+                </ul>
             <h3>Learn</h3>
                 <p class="lead">
-
+                    For some 
                 </p>
+        </article>
+        <article class="jumbotron" id="coalliance-bibcat-bml-2">
+            <h2>BML Iteration Two</h2>
+            <h3>Build</h3>
+            <h3>Measure</h3>
+            <h3>Learn</h3>
         </article>
     </div>
     <div class="col-md-3">

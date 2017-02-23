@@ -6,7 +6,29 @@
 <h2>{{ title }}</h2>
 <h1>Ingesting MARC</h1>
 
-<p>{{ request.path }}</p>
-
-
+<h3>Used in &hellip;</h3>
+<div class="row">
+    <div class="col-md-4 offset-md-1">
+        {% include 'cards/bibcat-coalliance.html' %}
+    </div>
+    <div class="col-md-6">
+        <ul class="lead">
+            <li>Generated Sample Set from Colorado Alliance Gold Rush
+                Decision&reg; product</li>
+        </ul>
+    </div>
+</div>
+<hr>
+<div class="row">
+    <div class="col-md-6">
+        <ul class="lead">
+            <li>Ingesting entire collection of 401,xxx MARC21 records
+                from legacy ILS.
+            </li>
+         </ul>
+    </div>
+    <div class="col-md-4">
+        {% include 'cards/kean-academic-concierge.html' %}
+    </div>      
+</div>
 {% endblock %}

@@ -24,34 +24,151 @@
 
 &lt;http://intro2libsys.info/code4lib-2017&gt; a schema:EducationEvent ;
     schema:endDate "2017-03-11T26:59:99" ;
+    schema:superEvent &lt;http://2017.code4lib.org/&gt; ;
     schema:startDate "2017-03-11T20:00:00" . 
+
 
 </pre>
         <hr>
         <h2>Programmatically with Python &amp; rdflib</h2>
         <ol>
             <li><kbd>(p3-env)&gt; python</kbd></li>
-            <li><pre><code>
+            <li>Run Python in interactive mode:<pre><code>
 >> import rdflib
 >> SCHEMA = rdflib.Namespace("http://schema.org/")
 >> preconference = rdflib.ConjunctiveGraph()
 >> preconference_iri = rdflib.URIRef("http://intro2libsys.info/code4lib-2017")
+>> code4lib_2017 = rdflib.URIRef("http://2017.code4lib.org/>)
 >> preconference.add((preconference_iri,
                       rdflib.RDF.type,
                       SCHEMA.EducationEvent))
 >> preconference.add((preconference_iri,
                       SCHEMA.startDate,
                       rdflib.Literal("2017-03-11T20:00:00")))
+>> prefconference.add((prefconference_iri,
+                       SCHEMA.superEvent,
+                       code4lib_2017))
             </code></pre></li> 
     </div>
 </div>
 <hr>
-<h2>Example One: Colorado College</h2>
-<img src="{{ url_for('static', filename='images/cc-logo.png') }}">
+<div class="jumbotron">
+<h2 id="colorado-college">Example One: Colorado College</h2>
 <div class="row">
-    
+    <div class="col-md-3">
+        <img src="{{ url_for('static', filename='images/cc-logo.png') }}" alt="Colorado College Logo">
+        <div class="alert alert-warning">
+            <h4 class="alert-heading">Base Knowledge Graph</h4>
+            <p>
+                RDF Applications and microservices use the base knowledge graph
+                composed of <a href="#colorado-college-ttl" data-toggle="modal" 
+                               class="alert-link">
+                               <i class="fa fa-building"></i> colorado-college.ttl
+                            </a>,
+                <a href="#cc-people-ttl" data-toggle="modal" 
+                   class="alert-link"><i class="fa fa-user"></i> cc-people.ttl</a>, and 
+                <a href="#cc-2016-2017-ttl" data-toggle="modal"
+                   class="alert-link"><i class="fa fa-calendar"></i> cc-2016-2017.ttl</a> all
+                managed using Git and Github as part of the ongoing <a href="#" class="alert-link">TIGER Catalog</a> project.
+            </p>
 
+        </div>
+    </div>
+    <div class="col-md-9">
+        <img src="{{ url_for('static', filename='images/cc-knowledge-graph.svg') }}"
+             alt="Colorado College Knowledge Graph">
+    </div>
 </div>
+<h3>Used in &hellip;</h3>
+<div class="row">
+    <div class="col-md-4 offset-md-1">
+        {% include 'cards/cc-etd.html' %}
+    </div>
+    <div class="col-md-6">
+        <ul class="lead">
+            <li>Associate Theses with 
+            departments and people from CC's Knowledge Graph</li>
+            <li>Adds additional triples to configure RDF 
+            application in <a href="#">etd-2016-2017.ttl</a> Turtle file</li>
+            <li>Stores associated IRIs of People, Institution, Departments in MODS 
+            metadata XML that is saved with the thesis datastreams in Colorado 
+            College's legacy Fedora 3.8 repository</li>
+            
+        </ul>
+    </div>
+</div>
+</div>
+<hr>
 <h2>Example Two: Kean University</h2>
-<img src="{{ url_for('static', filename='images/Kean_University_Logo.png') }}">
+<div class="row jumbotron">
+    <div class="col-md-6">
+        <ul class="lead">
+
+        </ul>
+    </div>
+    <div class="col-md-4">
+        {% include 'cards/kean-academic-concierge.html' %}
+    </div>
+</div> 
 {% endblock %}
+
+{% block dialogs %}
+<div class="modal fade" id="colorado-college-ttl">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">About <code>colorado-college.ttl</code></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <i class="fa fa-building fa-2x pull-left"></i>
+        <p>Modal body text goes here.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="cc-people-ttl">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">About <code>cc-people.ttl</code></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <i class="fa fa-user fa-2x pull-left"></i>
+        <p>Modal body text goes here.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="cc-2016-2017-ttl">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">About <code>cc-2016-2017.ttl</code></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <i class="fa fa-calendar fa-2x pull-left"></i>
+        <p>Modal body text goes here.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock dialogs %}

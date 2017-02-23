@@ -5,8 +5,70 @@
 {% block main %}
 <h2>{{ title }}</h2>
 <h1>Ingesting Metadata</h1>
+<div class="row">
+    <div class="col-md-3">
+        <h3>Source Metadata</h3>
+        <a href="#mods-marmot" data-toggle="modal"> 
+        <img src="{{ url_for('static', filename='images/mods-logo.png') }}">
+        from<br>
+        <img src="{{ url_for('static', filename='images/marmot-logo.png') }}">
+        </a>
+    </div>
+    <div class="col-md-5">
+        <h3>RDF Transformation Rules</h3>
+        <p class="lead">
+        Standard rule for MODS from BIBCAT's <a href="#">kds-bibcat-mods-ingestion.ttl</a> 
+        </p>
+        <p class="lead">
+        Rule for BF Item from <a href="#">marmot-mods.ttl</a>:
+        </p>
+        <pre><code>
+bc:bf-itemHeldBy a kds:PropertyLinker;
+    kds:destPropUri [ bf:heldBy &lt;http://marmot.org/&gt; ] ;
+    kds:destClassUri bf:Item .
 
-<p>{{ request.path }}</p>
 
+        </code></pre>
+    </div>
+    <div class="col-md-4">
+        <h3>BIBFRAME 2.0 Entities</h3>
+    </div>
+</div>
+<h3>Used in &hellip;</h3>
+<div class="row jumbotron">
+    <div class="col-md-4">
+        {% include 'cards/dpla-plains2peaks.html' %}
+    </div>
+    <div class="col-md-8">
+        <ul class="lead">
+            <li>Uses different vocabularies and formats like
+                <a href="{{ url_for('slide', page='glossary') }}#mods">MODS</a> XML,
+                <a href="{{ url_for('slide', page='glossary') }}#dc">Dublin Core</a> RDF XML,
+                <a href="{{ url_for('slide', page='glossary') }}#csv">CSV</a>
+            </li>
+        </ul>
+    </div>
+</div>
+{% endblock %}
+
+{% block dialogs %}
+<div class="modal fade" id="mods-marmot">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">MODS Metadata from Marmot Consortium</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Modal body text goes here.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 {% endblock %}

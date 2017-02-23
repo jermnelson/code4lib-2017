@@ -74,7 +74,16 @@
             <h2>2016-2017</h2>
             <h3>Build</h3>
                 <p class="lead">
-                
+                    The latest iteration of CCETD Application uses Colorado 
+                    College's new institutional 
+                    <a href="{{ url_for('slide', page='create-knowledge-graph') }}#colorado-college">knowledge graph</a>
+                    to populate the self-submission form and to save back IRIs to the MODS metadata.
+                </p>
+                <p>
+                    The second major new functionality is adding support for LDAP to the 
+                    Catalog Pull Platform so that Colorado College Seniors can use their
+                    single-signon campus credentials for authenticating to this RDF
+                    application.
                 </p>
             <h3>Measure</h3>
                 <p class="lead">
@@ -87,21 +96,7 @@
         </article>
     </div>
     <div class="col-md-4">
-        <img src="{{ url_for('static', filename='images/cc-logo.png') }}" class="img">
-
-        <section class="card">
-            <div class="card-block">
-                <h4 class="card-title"></h4>
-                <h6 class="card-subtitle mb-2 text-muted">Blazegraph Triplestore, RDF Framework, BIBCAT</h6>
-                <p class="card-text">
-                
-                </p>
-                <a href="https://github.com/Tutt-Library/ccetd" 
-                    class="card-link">Source Code Repository</a>
-
-
-            </div>
-        </section>
+        {% include 'cards/cc-etd.html' %}
         <h2>Thanks &amp; Acknowledgments</h2>
         <div class="card" itemscope itemtype="http://schema.org/Person" style="width: 275px">
             <img class="card-img-top" itemprop="image"
