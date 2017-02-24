@@ -136,8 +136,8 @@
      showgrid="false"
      inkscape:window-width="919"
      inkscape:window-height="713"
-     inkscape:window-x="100"
-     inkscape:window-y="100"
+     inkscape:window-x="30"
+     inkscape:window-y="140"
      inkscape:window-maximized="0" />
   <metadata
      id="metadata2990">
@@ -286,9 +286,9 @@ m29505v+cO7l2suVdWVdWb++6/8BXx1PIfmoifIAAAAASUVORK5CYII=
        height="64"
        width="64" />
     <g
-       id="Show-CC"
-       onclick="$('#colorado-colllege-ttl').modal('show')"
-       inkscape:label="#g4211">
+       id="Show-CC-People"
+       inkscape:label="#g4211"
+       onclick="console.log('In people')">
       <g
          transform="matrix(0.53233753,0,0,0.54404018,-7437.7238,-7401.9598)"
          id="g3770-4">
