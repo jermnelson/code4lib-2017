@@ -100,16 +100,27 @@
             </div>
 
         <h2 id="run-triplestore">5. Run RDF Triplestore</h2>
-        <div class='row'>
-            <div class="col-sm-11 offset-sm-1">
-                Download Blazegraph or use the 
-                <a href="https://hub.docker.com/r/jermnelson/semantic-server-core/">jermnelson/semantic-server-core</a>
-                Docker image.
+            <div class='row'>
+                <div class="col-sm-11 offset-sm-1">
+                    Download <a href="https://www.blazegraph.com/download">Blazegraph</a> or use the 
+                    <a href="https://hub.docker.com/r/jermnelson/semantic-server-core/">jermnelson/semantic-server-core</a>
+                    Docker image.
+                </div>
             </div>
-            <div class="col-sm-11 offset-sm-1">
-             <kbd>docker run -p 8080:8080 -p 9999:9999 jermnelson/semantic-server-core:dev</kbd>
+            <div class='row'>
+                <div class="col-sm-11 offset-sm-1">
+                    <h3>Using Docker</h3>
+                    <kbd>docker run -p 8080:8080 -p 9999:9999 jermnelson/semantic-server-core:dev</kbd>
+                </div>
             </div>
-        </div>
+            <div class='row'>
+                <div class="col-sm-11 offset-sm-1">
+                    <h3>Standalone Java JAR file</h3>
+                    <p>After downloading the Blazegraph Jar file, you can run a simple instance of 
+                    Blazegraph using java</p>
+                    <kbd>java -jar 
+                </div>
+            </div>
         <h2 id="instance-config">6. Create an instance directory and <code>config.py</code></h2>
             <div class="row">
                 <div class="col-sm-9 offset-sm-1">
