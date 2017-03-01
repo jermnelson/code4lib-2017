@@ -10,10 +10,18 @@
         {% include 'cards/bibcat-coalliance.html' %}
     </div>
     <div class="col-md-8">
+        <p class="lead">
+            The primary goal of this project is increasing the exposure of a library's catalog collections
+            when patrons are doing searches using web engines like <a href="https://www.google.com">Google</a>
+            or Microsoft <a href="https://bing.com">Bing</a> 
+        </p>
         <img src="{{ url_for('static', filename='images/google-logo.png') }}"> 
         <img src="{{ url_for('static', filename='images/cu-boulder-logo.png') }}" style="background-color: rgb(0,0,0)">
 
         <a href="https://www.coloradocollege.edu/"><img src="{{ url_for('static', filename='images/cc-logo.png') }}"></a>
+        <h3>Live site:</h3>
+        <h1><a href="http://bibcat.coalliance.org/">http://bibcat.coalliance.org/</a></h1>
+
     </div>
 </div>
 <hr>
@@ -24,31 +32,72 @@
             <h2>BML Iteration One</h2>
             <h3>Build</h3>
                 <p class="lead">
-                    The 
+                    In the first Build phase of iteration one, we created a  
+                    <a href="{{ url_for('slide', page='glossary') }}#flask">Flask</a> project with the
+                    latest versions of
+                    <a href="{{ url_for('slide', page='glossary') }}#bibcat">BIBCAT</a> and 
+                    <a href="{{ url_for('slide', page='glossary') }}#rdfframework">RDF Framework</a> 
+                    as git submodules that are imported as Python modules into the application.
                 </p>
+                <h4>
+                    The <a href="{{ url_for('slide', page='glossary') }}#mvp">minimum viable product</a>
+                    features for this iteration are: 
+                </h4>
+                <ol class="lead">
+                    <li>Transform and ingest 171,559 MARC 21 records sampled from Colorado College and 
+                    the University of Colorado at Boulder into 7,056,697 RDF triples</li>
+                    <li>All BIBFRAME Instances are created using an URL pattern of 
+                    <code>http://bibcat.coalliance.org/</code> followed by a random UUID, the BIBFRAME Item
+                    attempts to use the direct URL of the catalog record in the respective library's ILS as
+                    an <a href="{{ url_for('slide', page='glossary') }}#iri">IRI</a>.
+                    </li>
+                    <li>BIBFRAME Works are blank nodes and no de-duplication of BIBFRAME Instances or 
+                    linking to external was attempted in this iteration.</li>
+                    <li>Create four views (or routes) in the application; an HTML front and detail pages, 
+                    a <a href="{{ url_for('slide', page='glossary') }}#sitemap">XML sitemap</a>,
+                    and an XML sitemap index.</li>
+                    <li>Detail page for each BIBFRAME Instance embedded JSON-LD Schema.org metadata for
+                    indexing by Google. The detail page's JSON-LD also embedded latitude and longitude and
+                    address information for library holding that Instance.</li>
+                    <li>Construct linked Docker containers using Docker Compose using three Docker images,
+                    a <code>bibcat</code> Application image, a custom <code>nginx</code> webserver image 
+                    that routes traffic to bibcat, and a <code>jermnelson/semantic-server-core</code> 
+                    image that provides a Blazegraph
+                    triplestore and a Fedora Commons 4 digital repository for use by bibcat.</li>
+                </ol>
             <h3>Measure</h3>
                 <ul class="lead">
                     <li>
-                        Number of BF Instances indexed by Google: <span>164,XXX</span>
+                        Number of BF Instances available for indexing: <span>157,804</span>
                     </li>
-                    {% set query_terms = ['Helen Hunt Jackson Ramona']%}
+                    {% set query_terms = ['Helen Hunt Jackson Ramona', 
+                                          'James Dean transfigured :the many faces of rebel iconography']%}
                     <li>
                         Ad Hoc General Google Searches:
                         <ol>
                             <li>
-                                <em>{{ query_terms.0 }}</em>:
+                                <em>{{ query_terms.0 }}</em>:<br>
+                                Total results: 383,000 (as of 3/1/2017)<br>
+                                BIBCAT coalliance result? Not in the first 700 hits<br>
                             </li>
-                            <li></li>
+                            <li><em>{{ query_terms.1 }}</em>:<br>
+                                Total results: 2,070 (as of 3/1/2017)<br>
+                                BIBCAT coalliance result? 6th hit on first Google result page
+                            </li> 
+
                         </ol>
                     </li>
                     <li>
                         Site Specific Search on <a href="http://bibcat.coalliance.org">http://bibcat.coalliance.org</a>
                         <ol>
                             <li>
-                                <strong>{{ query_terms.0 }}</strong>:
+                                <em>{{ query_terms.0 }}</em>:<br>
+                                Total results: 12 (as of 3/1/2017)<br>
                             </li>
-
-
+                            <li>
+                                <em>{{ query_terms.1 }}</em>:<br>
+                                Total results: 1 (as of 3/1/2017)<br>
+                            </li>
                         </ol>
                     </li>
                     <li>
@@ -57,8 +106,11 @@
                 </ul>
             <h3>Learn</h3>
                 <p class="lead">
-                    For some 
+                    A SEO expert should have been involved in at least 
                 </p>
+                <div class="alert alert-danger lead">
+                    <strong>Check robots.txt</strong>
+                </div>
         </article>
         <article class="jumbotron" id="coalliance-bibcat-bml-2">
             <h2>BML Iteration Two</h2>
@@ -76,8 +128,9 @@
             <div class="card-block">
                 <h4 class="card-title" itemprop="name">George Machovec</h4>
                 <p class="card-text" itemprop="description">
-                George Machovec is the Executive Director
-                
+                George Machovec is the Executive Director of Colorado Alliance of Research
+                Libraries and was instrumental in initiating this project starting with 
+                two members of the consortium with plans to extend to the entire membership.
                 </p>
                 <a href="mailto:george@coalliance.org" class="btn btn-primary">
                 <i class="fa fa-id-card-o"></i>

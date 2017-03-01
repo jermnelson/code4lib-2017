@@ -72,7 +72,7 @@
                 <div class="col-sm-11 offset-sm-1">
                     <h3>Download <code>requirements.txt</code></h3>
                     <p> Download and save the preconference requirements.txt (available on Github  
-                        at <a href="#">requirements.txt</a>) to your root Project directory.
+                        at <a href="https://raw.githubusercontent.com/jermnelson/code4lib-2017/master/requirements.txt">requirements.txt</a>) to your root Project directory.
                     </p>
                 </div>
             </div>
@@ -118,7 +118,8 @@
                     <h3>Standalone Java JAR file</h3>
                     <p>After downloading the Blazegraph Jar file, you can run a simple instance of 
                     Blazegraph using java</p>
-                    <kbd>java -jar 
+                    <kbd>java -server -jar blazegraph</kbd>
+                    Blazegraph should now be running at <label>http://localhost:9999/blazegraph
                 </div>
             </div>
         <h2 id="instance-config">6. Create an instance directory and <code>config.py</code></h2>
@@ -149,9 +150,28 @@
                     </ol>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-sm-9 offset-sm-1">
+                    <h3>Add and set these  <code>config.py</code> variables</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-9 offset-sm-1">
+                    <dl>
+                        <dt>BASE_URL</dt>
+                            <dd>URL used for generating IRI</dd>
+                        <dt>SECRET_KEY</dt>
+                            <dd>Set this to any random string of characters</dd>
+                        <dt>TRIPLESTORE_URL</dt>
+                            <dd>Set this URL to the running Blazegraph instance from the
+                            previous step</dd>
+                    </dl>
+                </div>
+                <div class="col-sm-6">
 
 
-
+                </div>
+            </div>
     </div>
     <div class="col-md-4">
         <h3>Steps for creating a development environment</h3>
