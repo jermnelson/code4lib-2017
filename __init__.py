@@ -9,7 +9,8 @@ import sys
 from flask import Flask, jsonify, render_template, redirect, request 
 from flask import session, url_for
 app = Flask(__name__)
-app.config["SECRET_KEY"] = hashlib.sha256(os.urandom(45)).hexdigest()
+if not "SECRET_KEY" in app.config:
+    app.config["SECRET_KEY"] = hashlib.sha256(os.urandom(45)).hexdigest()
 
 PRESENTATION_ROOT = os.path.abspath(os.path.dirname(__file__))
 CONTENT = dict()
