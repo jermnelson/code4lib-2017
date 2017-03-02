@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% set category='activity' %}
+
+{% block main %}
+<h2>{{ title }}</h2>
+<h1>Haskell BIBCAT</h1>
+<p class="lead">This is just in the preliminary stages of a
+functional programming project for BIBCAT being developed in 
+<a href="{{ url_for('slide', page='glossary') }}#haskell">Haskell</a>
+</p>
+
+{% endblock %}
