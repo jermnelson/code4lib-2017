@@ -17,7 +17,7 @@
 <h1 itemprop="title">Setup Environment</h1>
 
 <div class="row">
-    <div class="col-md-8"> 
+    <div class="col-md-9"> 
         <h2 id="install-python">1. Download and install Python 3</h2>  
         <div class="row">
             <div class="col-sm-5 offset-sm-1">
@@ -106,7 +106,32 @@
                     git installed.
                 </div>
             </div>
-
+            <div class="row">
+                <div class="col-sm-11 offset-sm-1">
+                    <h3>Microsoft Windows</h3>
+                    <ol>
+                        <li>
+                            <kbd>(py3-env)C:\tmp\rdf-app&gt;git clone https://github.com/KnowledgeLinks/rdfw-bibcat.git bibcat</kbd>
+                        </li>
+                        <li>
+                            <kbd>(py3-env)C:\tmp\rdf-app&gt;git clone https://github.com/KnowledgeLinks/rdfframework.git rdfw</kbd>
+                        </li>
+                   </ol>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-11 offset-sm-1">
+                    <h3>POSIX (Linux, MacOS)</h3>
+                    <ol>
+                        <li>
+                            <kbd>(py3-env)/tmp/rdf-app&gt;git clone https://github.com/KnowledgeLinks/rdfw-bibcat.git bibcat</kbd>
+                        </li>
+                        <li>
+                            <kbd>(py3-env)/tmp/rdf-app&gt;git clone https://github.com/KnowledgeLinks/rdfframework.git rdfw</kbd>
+                        </li>
+                    </ol>
+                </div>
+            </div> 
 
         <h2 id="run-triplestore">6. Run RDF Triplestore</h2>
             <div class='row'>
@@ -166,7 +191,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-9 offset-sm-1">
+                <div class="col-sm-5 offset-sm-1">
                     <dl>
                         <dt>BASE_URL</dt>
                             <dd>URL used for generating IRI</dd>
@@ -177,13 +202,19 @@
                             previous step</dd>
                     </dl>
                 </div>
-                <div class="col-sm-6">
-
-
+            </div>
+            <div class="row">
+                <div class="col-sm-10 offset-sm-1">
+                    <h3>Example <code>config.py</code></h3>
+                    <pre style="padding: .5em; border: 1px solid black">
+BASE_URL = 'http://bibcat.org/'
+SECRET_KEY ='b256efed34536fd67f48dbdfa192a7ea2fd553526afcfd1fcfebf7b21f2d1303'
+TRIPLESTORE_URL = 'http://localhost:9999/blazegraph/query' 
+                    </pre>
                 </div>
             </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
         <h3>Steps for creating a development environment</h3>
         <ol>
             <li>Download and install latest Python 3  
