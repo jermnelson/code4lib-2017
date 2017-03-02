@@ -2,13 +2,14 @@ __author__ = "Jeremy Nelson"
 
 import glob
 import jinja2
+import hashlib
 import os
 import re
 import sys
 from flask import Flask, jsonify, render_template, redirect, request 
 from flask import session, url_for
-app = Flask(__name__, instance_relative_config=True)
-app.config.from_pyfile('config.py')
+app = Flask(__name__)
+app.config["SECRET_KEY"] = hashlib.sha256(os.urandom(45)).hexdigest()
 
 PRESENTATION_ROOT = os.path.abspath(os.path.dirname(__file__))
 CONTENT = dict()
