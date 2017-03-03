@@ -5,7 +5,9 @@
 {% block main %}
 <h2>{{ title }}</h2>
 <h1>Ingesting MARC</h1>
+<p class="lead">
 
+</p>
 <h3>Used in &hellip;</h3>
 <div class="row">
     <div class="col-md-4 offset-md-1">
@@ -13,8 +15,19 @@
     </div>
     <div class="col-md-6">
         <ul class="lead">
-            <li>Generated Sample Set from Colorado Alliance Gold Rush
-                Decision&reg; product</li>
+            <li>Generated Sample Set from Colorado Alliance Gold Rush&reg;
+            Library Content Comparison System</li>    
+            <li>MARC21 file separated into 10,000 record shards and then each
+                shard was run with a separate instance of the MARC Ingester</li>
+            <li>
+                Result of transforming MARC into BIBFRAME Entities were saved as
+                RDF Turtle files. Examples:
+                <ul>Colorado College MARC 10,000-to-20,000 MARC Records to BIBFRAME RDF Turtle files:
+                    <li><a href="https://github.com/KnowledgeLinks/alliance-bibcat/blob/master/data/cc-2016-10k-20k.ttl">
+https://github.com/KnowledgeLinks/alliance-bibcat/blob/master/data/cc-2016-10k-20k.ttl</a></li>
+
+                </ul>
+            </li>
         </ul>
     </div>
 </div>

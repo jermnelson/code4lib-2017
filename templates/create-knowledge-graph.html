@@ -15,7 +15,7 @@
             </p>  
         </div>
     </div>
-    <div class="col-md-8">
+    <div class="col-md-9">
         <h2>Manually with a Text Editor</h2>
 <pre>
 @prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; .
@@ -33,18 +33,18 @@
         <h2>Programmatically with Python &amp; rdflib</h2>
         <ol>
             <li><kbd>(p3-env)&gt; python</kbd></li>
-            <li>Run Python in interactive mode:<pre><code>
+            <li>Run Python in interactive mode:<pre class="rounded bg-info" style="font-weight: bold; font-size: 1.1em;"><code>
 >> import rdflib
 >> SCHEMA = rdflib.Namespace("http://schema.org/")
 >> preconference = rdflib.ConjunctiveGraph()
 >> preconference_iri = rdflib.URIRef("http://intro2libsys.info/code4lib-2017")
->> code4lib_2017 = rdflib.URIRef("http://2017.code4lib.org/>)
+>> code4lib_2017 = rdflib.URIRef("http://2017.code4lib.org/")
 >> preconference.add((preconference_iri,
                       rdflib.RDF.type,
                       SCHEMA.EducationEvent))
 >> preconference.add((preconference_iri,
                       SCHEMA.startDate,
-                      rdflib.Literal("2017-03-11T20:00:00")))
+                      rdflib.Literal("2017-03-06T20:30:00")))
 >> prefconference.add((prefconference_iri,
                        SCHEMA.superEvent,
                        code4lib_2017))
@@ -53,7 +53,7 @@
 </div>
 <hr>
 <div class="jumbotron">
-<h2 id="colorado-college">Example One: Colorado College</h2>
+<h2 id="colorado-college">Colorado College Example</h2>
 <div class="row">
     <div class="col-md-3">
         <img src="{{ url_for('static', filename='images/cc-logo.png') }}" alt="Colorado College Logo">
@@ -80,24 +80,54 @@
     </div>
 </div>
 <h3>Used in &hellip;</h3>
-<div class="row">
-    <div class="col-md-4 offset-md-1">
-        {% include 'cards/cc-etd.html' %}
+    <div class="row">
+        <div class="col-md-4 offset-md-1">
+            {% include 'cards/cc-etd.html' %}
+        </div>
+        <div class="col-md-6">
+            <ul class="lead">
+                <li>Associate Theses with 
+                departments and people from CC's Knowledge Graph</li>
+                <li>Adds additional triples to configure RDF 
+                application in <a href="#etd-2016-2017-ttl" data-toggle="modal">etd-2016-2017.ttl</a> Turtle file</li>
+                <li>Stores associated IRIs of People, Institution, Departments in MODS 
+                metadata XML that is saved with the thesis datastreams in Colorado 
+                College's legacy Fedora 3.8 repository</li>
+            </ul>
+       </div>
     </div>
-    <div class="col-md-6">
-        <ul class="lead">
-            <li>Associate Theses with 
-            departments and people from CC's Knowledge Graph</li>
-            <li>Adds additional triples to configure RDF 
-            application in <a href="#">etd-2016-2017.ttl</a> Turtle file</li>
-            <li>Stores associated IRIs of People, Institution, Departments in MODS 
-            metadata XML that is saved with the thesis datastreams in Colorado 
-            College's legacy Fedora 3.8 repository</li>
-            
-        </ul>
+    <br>
+    <div class="row">
+        <div class="col-md-11 offset-md-1">
+            <h4 style="align: center">Loading Colorado College's Knowledge Graph with Python</h4>
+        <ol>
+            <li><kbd>(p3-env)&gt; python</kbd></li>
+            <li>Run Python in interactive mode:<pre class="rounded" style="background-color: white"><code>
+>>> import requests
+>>> TRIPLESTORE_URL = 'http://localhost:9999/blazegraph/sparql'
+>>> def setup_etd_knowledgegraph():
+  	 cc_path = 'E:/2017/tiger-catalog/custom/'
+ 	 etd_path = "E:/2017/ccetd/custom/etd-2016-2017.ttl"
+	 for name in ["colorado-college.ttl",
+	 	      "cc-people.ttl",
+		      "cc-2016-2017.ttl"]:
+		 with open("{}/{}".format(cc_path, name), "rb") as fo:
+		    requests.post(TRIPLESTORE_URL,
+				  data=fo.read(),
+				  headers={"Content-Type": "text/turtle"})
+	 with open(etd_path, 'rb') as fo:
+	    requests.post(TRIPLESTORE_URL,
+	                  data=fo.read(),
+			  headers={"Content-Type": "text/turtle"})
+	 print("Finished")
+>>> setup_etd_knowledgegraph()
+    Finished
+
+            </code></pre>
+        </div>
     </div>
 </div>
-</div>
+{#
 <hr>
 <h2>Example Two: Astronomy 101 Online Class</h2>
 <div class="jumbotron">
@@ -112,6 +142,11 @@
     <div class="row">
         <div class="col-md-12">
         <pre  style="background-color: white; border: 1px solid black"><code class="pre-scrollable">
+&lt;https://www.ppcc.edu/&gt; a schema:CollegeOrUniversity ;
+    schema:name "Pikes Peak Community College"@en .
+
+
+
 &lt;https://ccco.desire2learn.com/d2l/le/content/1752799/viewContent/18553168/View&gt; a schema:AssignmentDiscussion,
         schema:EducationalEvent ;
     schema:comment [ a schema:Comment ;
@@ -130,11 +165,12 @@
         </div>
     </div>
 </div>
+#}
 {% endblock %}
 
 {% block dialogs %}
 <div class="modal fade" id="colorado-college-ttl">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">About <code>colorado-college.ttl</code></h5>
@@ -144,7 +180,57 @@
       </div>
       <div class="modal-body">
         <i class="fa fa-building fa-2x pull-left"></i>
-        <p>Modal body text goes here.</p>
+        <p>This <a href="https://github.com/Tutt-Library/tiger-catalog/blob/master/custom/colorado-college.ttl">RDF file</a>
+         contains basic facts about Colorado College regarding the current academic structure like 
+        faculty titles, departments, and address information. By serializing and managing this
+        file with Git, this knowledge about the college is tracked as source code.</p>
+        <strong>Excerpts</strong>
+        <p>Reifies faculty titles in Colorado College specific namespace (would prefer
+        a standard or existing ontology) for <code>@prefix cc_fac: &lt;https://www.coloradocollege.edu/ns/faculty/&gt; .</code>
+        </p>
+        <pre class="rounded bg-faded"><code>
+cc_fac:assistant-professor a rdf:Resource ;
+    rdfs:label "Assistant Professor"@en ;
+    rdf:range relators:tch .
+
+cc_fac:associate-professor a rdf:Resource ;
+    rdfs:label "Associate Professor"@en ;
+    rdf:range relators:tch .
+
+cc_fac:chair a schema:title ;
+    rdfs:label "Chair"@en .
+        </code></pre>
+        <p>The existing campus URLs of departments are used as subject and a label is attached.
+        A relationship with the larger campus is established through a schema.org predicate.</p> 
+        <pre class="rounded bg-faded"><code>
+&lt;https://www.coloradocollege.edu/academics/dept/anthropology/&gt; a bf:Organization,
+        schema:CollegeDepartment ;
+    rdfs:label "Anthropology"@en ;
+    schema:parentOrganization &lt;https://www.coloradocollege.edu/&gt; .
+
+&lt;https://www.coloradocollege.edu/academics/dept/art/&gt; a bf:Organization,
+        schema:CollegeDepartment ;
+    rdfs:label "Art Department"@en ;
+schema:parentOrganization &lt;https://www.coloradocollege.edu/&gt; .
+        </code></pre>
+        <p>Finally, information about Colorado College</p>
+        <pre class="rounded bg-faded"><code>
+&lt;https://www.coloradocollege.edu/&gt; a bf:Organization,
+        schema:CollegeOrUniversity ;
+    rdfs:label "Colorado College"@en ;
+    schema:address [ a schema:PostalAddress ;
+            schema:addressCountry "US" ;
+            schema:addressLocality "Colorado Springs"@en ;
+            schema:addressRegion "Colorado"@en ;
+            schema:postalCode 80903 ;
+            schema:streetAddress "14 East Cache La Poudre Street" ] ;
+    schema:foundingDate [ a schema:Date ;
+            rdf:value 1874 ] ;
+    schema:sameAs &lt;http://www.coloradocollege.edu/&gt; ;
+    schema:subOrganization &lt;https://www.coloradocollege.edu/academics/dept/anthropology/&gt;,
+&lt;https://www.coloradocollege.edu/academics/dept/art/&gt;,
+    &hellip;
+        </code></pre>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -153,7 +239,7 @@
   </div>
 </div>
 <div class="modal fade" id="cc-people-ttl">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">About <code>cc-people.ttl</code></h5>
@@ -163,7 +249,43 @@
       </div>
       <div class="modal-body">
         <i class="fa fa-user fa-2x pull-left"></i>
-        <p>Modal body text goes here.</p>
+        <p>This <a href="https://github.com/Tutt-Library/tiger-catalog/blob/master/custom/cc-people.ttl">RDF file</a> 
+        contains the names of various faculty, administration, and staff at
+        Colorado College. If the faculty or staff has an external URL like Library of Congress 
+        authority id from <a href="http://id.loc.gov/">http://id.loc.gov/</a> or an 
+        <a href="https://orcid.org/">ORCID</a> id or a Colorado College homepage, that 
+        URL is used as subject IRI along with  Schema.org name information. If an external URL
+        does not exist for the person, a unique IRI is generated using <code>http://catalog.coloradocollege.edu/</code>
+        and a UUID.</p>
+        <p class="alert alert-warning">
+            <strong>Note</strong> external URLs have only been researched for a couple of departments,
+            the intention is to have the various librarian liaisons in the Tutt Library become responsible
+            for maintaing the RDF entities in their various departments, including finding these external
+            links to authorities and identification services.
+        </p>
+        <strong>Excerpts</strong>
+        <pre class="rounded bg-faded"><code>
+&lt;http://catalog.coloradocollege.edu/f1fb52ae-b0e3-11e6-99dc-005056c00008&gt; a bf:Person ;
+    rdfs:label "Fanny Zhang" ;
+    schema:email "fzhang@ColoradoCollege.edu" ;
+    schema:familyName "Zhang"@en ;
+    schema:givenName "Fanny"@en .
+
+
+&lt;http://id.loc.gov/authorities/names/n87939410&gt; a bf:Person ;
+    rdfs:label "Marlow Anderson"@en ;
+    schema:email "manderson@ColoradoCollege.edu" ;
+    schema:familyName "Marlow"@en ;
+    schema:givenName "Anderson"@en ;
+    schema:url &lt;https://faculty1.coloradocollege.edu/~manderson/&gt; .
+       
+&lt;http://orcid.org/0000-0003-3203-0928&gt; a bf:Person ;
+    rdfs:label "Jessica Hoel"@en ;
+    schema:email "Jessica.Hoel@ColoradoCollege.edu" ;
+    schema:familyName "Hoel"@en ;
+    schema:givenName "Jessica"@en .
+
+        </code></pre>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -172,7 +294,7 @@
   </div>
 </div>
 <div class="modal fade" id="cc-2016-2017-ttl">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">About <code>cc-2016-2017.ttl</code></h5>
@@ -182,7 +304,30 @@
       </div>
       <div class="modal-body">
         <i class="fa fa-calendar fa-2x pull-left"></i>
-        <p>Modal body text goes here.</p>
+        <p>This <a href="https://github.com/Tutt-Library/tiger-catalog/blob/master/custom/cc-2016-2017.ttl">RDF file</a> contains
+        RDF triples regarding Colorado College's 2016-2017 Academic Year. This includes associating each department 
+        with the corresponding faculty and staff using Colorado College specific namespace, the time-span, and what faculty
+        are on sabbatical when. Because of Colorado College's unique Block Plan, Block information and associated relationships
+        with the academic year and semesters are also established.</p>
+        <pre class="rounded bg-faded"><code>
+
+&lt;http://catalog.coloradocollege.edu/0d463178-b02b-11e6-a76c-005056c00008&gt; a schema:EducationalEvent ;
+    rdfs:label "Organismal Biology and Ecology Academic Year 2016-2017"@en ;
+    schema:organizer &lt;https://www.coloradocollege.edu/academics/dept/obe/&gt; ;
+    schema:superEvent &lt;http://catalog.coloradocollege.edu/6dc97f06-7080-11e6-ae7e-005056c00008&gt; ;
+    cc_fac:associate-professor &lt;http://catalog.coloradocollege.edu/4fc0d56c-b0f1-11e6-be92-005056c00008&gt;,
+        &lt;http://catalog.coloradocollege.edu/501d4d4c-b0f1-11e6-8c7d-005056c00008&gt;,
+        &lt;http://catalog.coloradocollege.edu/51431c24-b0f1-11e6-a374-005056c00008&gt; ;
+    cc_fac:chair &lt;http://catalog.coloradocollege.edu/2e08aa0c-b0e3-11e6-ba28-005056c00008&gt; ;
+    cc_fac:faculty &lt;http://catalog.coloradocollege.edu/4ee8ff86-b0f1-11e6-b12b-005056c00008&gt; ;
+    cc_fac:professor &lt;http://catalog.coloradocollege.edu/2e08aa0c-b0e3-11e6-ba28-005056c00008&gt;,
+        &lt;http://catalog.coloradocollege.edu/4f5507c6-b0f1-11e6-b84c-005056c00008&gt;,
+        &lt;http://catalog.coloradocollege.edu/5077542c-b0f1-11e6-bb80-005056c00008&gt;,
+        &lt;http://catalog.coloradocollege.edu/50dc096c-b0f1-11e6-a9b6-005056c00008&gt; ;
+    cc_fac:sabbatical [ 
+        schema:member &lt;http://catalog.coloradocollege.edu/50dc096c-b0f1-11e6-a9b6-005056c00008&gt; ;
+        cc_fac:length "Spring"@en ] .
+        </code></pre>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -190,4 +335,48 @@
     </div>
   </div>
 </div>
+<div class="modal fade" id="etd-2016-2017-ttl">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">About <code>etd-2016-2017.ttl</code></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <i class="fa fa-calendar fa-2x pull-left"></i>
+                <p>This <a href="https://github.com/Tutt-Library/ccetd/blob/development/custom/etd-2016-2017.ttl">RDF file</a> 
+                is an example of using RDF to define application-specific in it's own namespace 
+                <code>@prefix etd: &lt;http://catalog.coloradocollege.edu/ns/etd#&gt; .</code>
+                that builds upon the existing information already captured in Colorado College's Knowledge
+                Graph.
+                </p>
+                <pre class="rounded bg-faded"><code>
+&lt;http://catalog.coloradocollege.edu/1a70ed64-b035-11e6-b974-005056c00008&gt; a etd:workflow ;
+    etd:contact &lt;http://catalog.coloradocollege.edu/c60cd252-f2e5-11e6-ab35-005056c00008&gt; ;
+    etd:theses [ etd:fedora38-pid "coccc:26679" ;
+            etd:slug "feminist-and-gender-studies" ;
+            etd:thesis_note "Senior Thesis -- Colorado College"@en ] ;
+    schema:organizer &lt;https://www.coloradocollege.edu/academics/dept/feministandgenderstudies/&gt; .
+
+&lt;http://catalog.coloradocollege.edu/2169480c-b657-11e6-9f35-005056c00008&gt; a etd:workflow ;
+    etd:contact &lt;http://catalog.coloradocollege.edu/e44fc8f8-f2e5-11e6-a232-005056c00008&gt; ;
+    etd:theses [ etd:fedora38-pid "coccc:26700" ;
+            etd:language iso6391:es,
+                iso6391:pt ;
+            etd:slug "spanish-and-portuguese" ;
+            etd:thesis_note "Senior Thesis -- Colorado College"@en ] ;
+    schema:organizer &lt;https://www.coloradocollege.edu/academics/dept/spanish/&gt;
+
+                </code></pre>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+      
+ 
 {% endblock dialogs %}

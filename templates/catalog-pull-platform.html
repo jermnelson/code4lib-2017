@@ -5,27 +5,77 @@
 {% block main %}
 <h2>{{ title }}</h2>
 <h1>Technology - Catalog Pull Platform</h1>
-<p class="lead"> The technology used in this pre-conference was initially created for a 
-Library of Congress funded project which later became two open-source projects; 
-<a href="https://github.com/KnowledgeLinks/rdfw-bibcat">BIBCAT</a> and the 
-<a href="https://github.com/KnowledgeLinks/rdfframework">RDF Framework</a>.
+<p class="lead"> The technology used in this pre-conference are both loosely-linked
+components of the Catalog Pull Platform, an approach to developing bibliographic
+digital services based on pull the requirements and features from the communities
+served by libraries and other cultural heritage institutions.  
+Inspired by both the Lean Startup management philosophy and Toyota's Lean Manufacturing, 
+the Catalog Pull Platform moves away from trying to anticipate the needs and then 
+"pushing" services and technology to patrons and staff, but instead identifies and 
+responds to needs and demands for library technology by "pulling" directly from 
+various constituencies served by these institutions. 
 </p>
 
 
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6">
         <h3>BIBCAT</h3>
-        <p>{{ request.path }}</p>
+            <p>In 2014 the Library of Congress issued an RFQ for a BIBFRAME 
+            "search and display" system to highlight BIBFRAME. Aaron 
+            Schmidt of <a href="http://weareinflux.com/">Influx Library User Experience</a> and 
+            Jeremy Nelson were awarded the contract with the Library of Congress. Together with 
+            additional help of Mike Stabile, resulted in BIBCAT - a BIBFRAME Catalog - a lightweight 
+            catalog web application that indexes <a href="http://bibframe.org">BIBFRAME 1.0</a> 
+            Linked Data into Elasticsearch.
+            </p>
+            <p>When the Library of Congress 
+            released <a href="http://www.loc.gov/bibframe/docs/index.html">BIBFRAME 2.0</a> in 
+            April of 2016, the tools for converting MARC records to these modified or new BIBFRAME classes  
+            and properties were missing. 
+        <div class="alert alert-info">
+           <strong>Links:</strong>
+            <ul>
+                <li><a class="alert-link" href="http://bibcat.org/">http://bibcat.org</a> - original bibcat.org 1.0</li> 
+                <li><a class="alert-link" 
+                       href="https://github.com/KnowledgeLinks/rdfw-bibcat">https://github.com/KnowledgeLinks/rdfw-bibcat</a>
+                source code repository on Github.</li>
+            </ul>
+        </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-6">
         <h3>RDF Framework</h3>
+        <p>The RDF Framework is the future of the Catalog Pull Platform. The vision of the RDF Framework is be able to 
+        define a microservice or application in RDF for such entities as BIBFRAME or Schema.org entities. Using the 
+        class and property semantics defined in a OWL or other ontology, the RDF Framework provides a single Python class
+        that provide CRUD operations through an automated HTML5 form interface, a REST API, or BIBCAT Ingester.</p>
+        <p>Currently in alpha status, utilities defined in the RDF Framework are currently be used in BIBCAT with the 
+        goal being full integration for version 1.0.0.</p>
+        <div class="alert alert-info">
+            <strong>Links:</strong>
+            <ul>
+                 <li><a class="alert-link" 
+                       href="https://github.com/KnowledgeLinks/rdfframework/">https://github.com/KnowledgeLinks/rdfframework/</a>
+                     source code repository on Github.</li>
+            </ul>
+        </div> 
     </div>
-    <div class="col-md-4">
-        <h4>What do we mean by &hellip;?</h4>
-        <ul>
-            <li>Microservices</li>
+</div>
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <h4>BIBCAT - Ingesters</h4>        
+        <p class="alert alert-danger"><strong>Warning!</strong> the first iteration of the BIBCAT ingesters are
+        painfully slow <i class="fa fa-frown-o" aria-hidden="true"></i> partly because of all of the look-ups and SPARQL queries involved. We are actively
+        speeding up this process.</p> 
+        <p>This preconference will focus on most developed part of the BIBCAT, the metadata ingester classes that 
+        take as inputs, different metadata formats like MARC21, MODS XML, Dublin Core RDF XML, and CSV files,
+        transforms them into BIBFRAME 2.0 and Schema.org RDF triples and then ingests the triples into a Blazegraph
+        triplestore.</p>
+        <p>Two of the three projects we will examine in depth use different Python Ingester classes. Coupled with 
+        both default and custom RDF rules that map the incoming data to RDF triples, the ingesters queries the 
+        triplestore to de-duplicate <a href="{{ url_for('slide', page='glossary') }}#subject">RDF subjects</a>
+        </p>
 
-        </ul>
+
     </div>
 </div>
 {% endblock %}
