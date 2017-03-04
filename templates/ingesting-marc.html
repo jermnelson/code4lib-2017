@@ -188,7 +188,7 @@
 @prefix loc: &lt;http://id.loc.gov/authorities/&gt; .
     </code></pre>
     </li>
-    <li>The first rule will be to associate a new BIBFRAME Item with Colorado 
+    <li>The first rule will be to associate a new <code>bf:Item</code> with Colorado 
     College's Tutt Library using the IRI of 
     <a href="https://www.coloradocollege.edu/library/">https://www.coloradocollege.edu/library/</a> through the <code>bf:heldBy</code> 
     predicate (substitute your own institutional IRI defined in 
@@ -199,9 +199,16 @@ bc:bf-Organization a kds:PropertyLinker;
     kds:destClassUri bf:Item .
     </code></pre>
     </li>
-    {#<li>
+    <li>The second rule will extract the barcode from the MARC 945 field, subfield i and
+    create a blank-node <code>bf:Barcode</code> with a linked range of <code>bf:barcode</code>
+    to the <code>bf:Item</code>
+
+    <a href="#marc-uri-src-prop" class="btn btn-primary" data-toggle="modal">About MARC URIs</a>
+    </li>
+    <li>The third rule will be to extract an identification number from the MARC Record
+    so that we can construct an IRI for linking directly to Colorado College's legacy ILS.
      
-    </li>#}
+    </li>
     </ol>
 <h2>Used in &hellip;</h2>
 <div class="jumbotron">
@@ -238,3 +245,49 @@ bc:bf-Organization a kds:PropertyLinker;
 </div>
 </div>
 {% endblock %}
+
+{% block dialogs %}
+<div class="modal fade" id="marc-uri-src-prop">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Understanding the MARC Source Property URI</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Mapping between the MARC record and BIBFRAME 2.0 entities and properties is
+                accomplished within the <code>m21</code> namespace. The BIBCAT property Linker
+                using the <code>kds</code> namespace to identify the corresponding MARC field,
+                indicators, and subfields to match for that particular BIBFRAME Entity and
+                property.</p>
+                <strong>Example of MARC-to-BIBFRAME RDF Rule</strong>
+               <pre class="rounded bg-faded"><code>
+bc:m21-bf_InstanceTitle_mainTitle a kds:PropertyLinker ;
+	kds:srcPropUri    m21:M24500a,
+                          m21:M24504a,
+                          m21:M24510a,
+                          &hellip;
+		          m21:M24518a,
+			  m21:M24519a ;
+
+        kds:destPropUri bf:mainTitle;
+	kds:destClassUri bf:InstanceTitle;
+	kds:linkedRange bf:title;
+kds:linkedClass bf:Instance .
+                </code></pre>
+                <p>In the example, the <code>bf:Instance</code>'s <code>bf:title</code> is a RDF
+                blank node that has a class of <code>bf:InstanceTitle</code> with the value 
+                extracted from the MARC record in the blank node's <code>bf:mainTitle</code> 
+                predicate. The mapping from the MARC record starts with the <code>kds:srcPropUri</code>
+                predicate that's RDF object is a IRI inspired by the rda mappings to MARC being 
+                done by &hellip;.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock dialogs %}
