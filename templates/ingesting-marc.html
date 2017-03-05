@@ -5,12 +5,27 @@
 {% block main %}
 <h2>{{ title }}</h2>
 <h1>Ingesting MARC</h1>
+<div class="row">
+    <div class="col-md-8">
 <p class="lead">
     For this activity we will use Python command-line to import the default 
     <a href="https://github.com/KnowledgeLinks/rdfw-bibcat/blob/master/ingesters/marc.py#L90">MARCIngester</a> 
     class from the <code>bibcat/ingesters/marc.py</code> module.
 </p>
-<h2>Ingesting a Single MARC21 Record</h2>
+    </div>
+    <div class="col-md-4">
+        <h3>Exercises</h3>
+        <ul>
+            <li><a href="#single">Ingesting a Single MARC21 Record</a></li>
+            <li><a href="#custom">Creating Custom Turtle RDF Rules File</a></li>
+            <li><a href="#preexisting">Using a Preexisting <code>bf:Item</code> IRI </a></li>
+            <li><a href="#multiple">Processing Multiple Records"</a></li>           
+        </ul>
+        <h4><a href="#example">Example</a></h4>
+
+    </div>
+</div>
+<h2 id="single">Ingesting a Single MARC21 Record</h2>
 {% set py_prompt = 3*'&gt;' %}
 <ol class="lead">
     <li>
@@ -164,7 +179,7 @@
 
 </code></pre>
 </ol>
-<h2>Creating Custom Turtle RDF Rules File</h2>
+<h2 id="custom">Creating Custom Turtle RDF Rules File</h2>
 <ol class="lead">
     <li>Start with a new terminal window and create a new 
         <strong>custom</strong> directory<br>
@@ -204,14 +219,270 @@ bc:bf-Organization a kds:PropertyLinker;
     to the <code>bf:Item</code>
 
     <a href="#marc-uri-src-prop" class="btn btn-primary" data-toggle="modal">About MARC URIs</a>
+    <pre class="rounded bg-faded"><code>bc:mrc-barcode a kds:PropertyLinker ;
+    kds:srcPropUri m21:M945__i;
+    kds:destClassUri bf:Barcode ;
+    kds:destPropUri rdf:value ;
+    kds:linkedRange bf:barcode ;
+    kds:linkedClass bf:Item .
+
+    </code></pre>
     </li>
-    <li>The third rule will be to extract an identification number from the MARC Record
-    so that we can construct an IRI for linking directly to Colorado College's legacy ILS.
-     
+    <li>Now, save your MARC-to-BIBFRAME RDF Turtle file in the <code>custom</code> directory as
+        <code>custom/cc-marc.ttl</code>.
+    </li>
+    <li>Going back to the running Python session, we will read and use the second MARC record
+        from the MARCReader instance<br>
+        <kbd>{{ py_prompt|safe }} second_record = next(reader)</kbd><br>
+        And print the record<br>
+        <pre class="bg-inverse rounded" style="color: white"><code>{{ py_prompt|safe }} print(second_record)
+=LDR  00921pam a2200277 a 4500
+=001  38144340
+=003  OCoLC
+=005  19991207162048.0
+=008  971205s1999\\\\njua\\\\\b\\\\001\0\eng\\
+=010  \\$a97049002
+=020  \\$a0134905172
+=040  \\$aDLC$cDLC$dUKM
+=049  \\$aCOCA
+=050  00$aQC806$b.L48 1999
+=090  \\$aQC806$b.L48 1999
+=100  1\$aLillie, Robert J.,$d1952-
+=245  10$aWhole earth geophysics :$ban introductory textbook for geologists and geophysicists /$cRobert J. Lillie.
+=260  \\$aUpper Saddle River, N.J. :$bPrentice Hall,$cc1999.
+=300  \\$ax, 361 p. :$bill. (some col.) ;$c26 cm.
+=504  \\$aIncludes bibliographical references and index.
+=650  \0$aGeophysics.
+=902  \\$a160511
+=907  \\$a.b13756497
+=945  \\$aQC806$b.L48 1999$g1$i33027004066753$j0$ltbp  $h0$oc$p$0.00$q $r-$s-$t1$u12$v0$w2$x3$y.i14450355$z991207
+=994  \\$atbp
+=999  \\$b1$c991207$dm$ea$fc$g0
+        </code></pre>
+    </li>
+    <li>Creating a new <code>MARCIngester</code> instance and with our 
+    <code>cc-marc.ttl</code> RDF turtle rule file.<br> 
+    <kbd>{{ py_prompt|safe }} marc_ingester = MARCIngester(custom='cc-marc.ttl')</kbd>
+    </li>
+    <li>
+        With the custom rules added to the default rules, we will run the 
+        <code>marc_ingester.transform</code> method with the <code>second_record</code>
+        MARC21 record<br>
+        <kbd>{{ py_prompt|safe }} marc_ingester.transform(record=second_record)</kbd>
+    </li>
+    <li>Finally, we will print the serialized form of the BIBFRAME output 
+        <code>marc_ingester.graph</code><br>
+        <pre class="bg-inverse rounded" style="color: white"><code>{{ py_prompt|safe }} print(marc_ingester.graph.serialize(format='turtle').decode())
+@prefix bc: &lt;http://knowledgelinks.io/ns/bibcat/&gt; .
+@prefix bf: &lt;http://id.loc.gov/ontologies/bibframe/&gt; .
+@prefix kds: &lt;http://knowledgelinks.io/ns/data-structures/&gt; .
+@prefix loc: &lt;http://id.loc.gov/authorities/&gt; .
+@prefix m21: &lt;http://knowledgelinks.io/ns/marc21/&gt; .
+@prefix owl: &lt;http://www.w3.org/2002/07/owl#&gt; .
+@prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; .
+@prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt; .
+@prefix relators: &lt;http://id.loc.gov/vocabulary/relators/&gt; .
+@prefix schema: &lt;http://schema.org/&gt; .
+@prefix skos: &lt;http://www.w3.org/2004/02/skos/core#&gt; .
+@prefix void: &lt;http://rdfs.org/ns/void#&gt; .
+@prefix xml: &lt;http://www.w3.org/XML/1998/namespace&gt; .
+@prefix xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt; .
+
+&lt;http://bibcat.org/bb1ac782-0123-11e7-9986-a8667f19014b&gt; a bf:Item ;
+    bf:barcode [ a bf:Barcode ;
+            rdf:value "33027004066753" ] ;
+    bf:generationProcess [ a bf:GenerationProcess ;
+            bf:generationDate "2017-03-04T21:44:23.368616" ;
+            rdf:value "Generated by BIBCAT version 1.7.5 from KnowledgeLinks.io"@en ] ;
+    bf:heldBy &lt;https://www.coloradocollege.edu/library/&gt; ;
+    bf:itemOf &lt;http://bibcat.org/ba977364-0123-11e7-871c-a8667f19014b&gt; .
+
+&lt;http://bibcat.org/ba977364-0123-11e7-871c-a8667f19014b&gt; a bf:Instance ;
+    bf:classification [ a bf:ClassificationLcc ;
+            rdf:value "QC806 .L48 1999" ] ;
+    bf:copyrightDate "c1999." ;
+    bf:dimensions "26 cm." ;
+    bf:extent [ a bf:Extent ;
+            rdf:value "x, 361 p. :" ] ;
+    bf:generationProcess [ a bf:GenerationProcess ;
+            bf:generationDate "2017-03-04T21:44:23.250965" ;
+            rdf:value "Generated by BIBCAT version 1.7.5 from KnowledgeLinks.io"@en ] ;
+    bf:identifiedBy [ a bf:Isbn ;
+            rdf:value "0134905172" ] ;
+    bf:instanceOf [ a bf:Work ;
+            bf:originDate "1999" ] ;
+    bf:provisionActivity [ a bf:Publication ;
+            relators:pbl "Prentice Hall," ] ;
+    bf:subject [ a bf:Topic ;
+            rdf:value "Geophysics." ] ;
+    bf:supplementaryContent [ a bf:SupplementaryContent ;
+            rdf:value "Includes bibliographical references and index." ] ;
+    bf:title [ a bf:InstanceTitle ;
+            bf:mainTitle "Whole earth geophysics :" ;
+            bf:subtitle "an introductory textbook for geologists and geophysicists /" ] ;
+    relators:aut [ a bf:Person ;
+            schema:name "Lillie, Robert J.," ] .
+
+        </code></pre>
+    From this transformation, we see that our custom rules have populated the objects for
+    <code>bf:barcode</code> and the <code>bf:heldBy</code> predicates.
+    </li>
+</ol>
+<h2 id="preexisting">Using a Preexisting <code>bf:Item</code> IRI </h2>
+    <ol class="lead">
+        <li>We can construct an IRI for linking directly to Colorado College's legacy ILS 
+            the bib number located in the MARC 907 field, subfield a subfield. Do this
+            we will first create a function <code>generate_item_iri</code> that takes
+            a MARC 21 record and returns a <code>rdflib.URIRef</code> that links
+            directly to the library's catalog.<br>
+            <pre class="bg-inverse rounded" style="color: white"><code>{{ py_prompt|safe }} import rdflib
+{{ py_prompt|safe }} def generate_item_iri(record):
+        if not '907' in record:
+            return
+        bib_number = record['907']['a'][1:-1]
+        return rdflib.URIRef("http://tiger.coloradocollege.edu/record={}".format(bib_number))
+
+            </code></pre>
+    </li>
+    <li>Next, we'll retrieve and use the third record in the reader<br>
+        <kbd>{{ py_prompt|safe }} third_record = next(reader)</kbd><br>
+        And print the <code>third_record</code> 
+        <pre class="bg-inverse rounded" style="color: white"><code>{{ py_prompt|safe }} print(third_record)
+=LDR  01469cam a22003614a 4500
+=001  61109349
+=003  OCoLC
+=005  20070130035705.0
+=008  050714s2006\\\\caua\\\\\b\\\\001\0\eng\\
+=010  \\$a2005019975
+=020  \\$a1412916186 (cloth)
+=020  \\$a9781412916189 (cloth)
+=020  \\$a1412916194 (pbk.)
+=020  \\$a9781412916196 (pbk.)
+=040  \\$aDLC$cDLC$dYDXCP$dBAKER$dUKM$dYBM$dIG#$dOCLCQ$dBTCTA
+=042  \\$apcc
+=043  \\$an-us---
+=049  \\$aCOCA
+=050  00$aQA13$b.P67 2006
+=050  00$aQA13$b.P67 2006
+=100  1\$aPosamentier, Alfred S.
+=245  10$aWhat successful math teachers do, grades 6-12 :$b79 research-based strategies for the standards-based classroom /$cAlfred S. Posamentier, Daniel Jaye.
+=260  \\$aThousand Oaks, Calif. :$bCorwin Press,$cc2006.
+=300  \\$axix, 197 p. :$bill. ;$c26 cm.
+=504  \\$aIncludes bibliographical references (p. 183-191) and index.
+=505  0\$aManaging your classroom -- Enhancing teaching techniques -- Facilitating student learning -- Assessing student progress -- Teaching problem solving -- Considering social aspects in teaching mathematics.
+=650  \0$aMathematics$xStudy and teaching (Secondary)$xStandards$zUnited States.
+=700  1\$aJaye, Daniel.
+=902  \\$a160104
+=907  \\$a.b16842455
+=945  \\$aQA13$b.P67 2006$g1$i33027005249309$j0$ltbp  $h0$oc$p$0.00$q $r-$s-$t1$u3$v26$w1$x0$y.i17378928$z070130
+=994  \\$atbp
+=999  \\$b1$c070130$dm$ea$fc$g0
+
+        </code></pre>
+    </li>
+    <li>Using the new <code>generate_item_iri</code> function on <code>third_record</code> results in an item IRI
+    of <a href="http://tiger.coloradocollege.edu/record=b1684245">http://tiger.coloradocollege.edu/record=b1684245</a><br>
+        <pre class="bg-inverse rounded" style="color: white"><code>{{ py_prompt|safe }} item_iri = generate_item_iri(third_record)
+{{ py_prompt|safe }} print(item_iri)
+http://tiger.coloradocollege.edu/record=b1684245
+        </code></pre>
+    </li>
+    <li>With the <code>bf:Item</code> function created, we will run the <code>marc_ingester.transform</code> 
+    on the <code>third_record</code> and pass in the <code>item_iri</code> to the function with a keyword
+    parameter.<br>
+    <kbd>{{ py_prompt|safe }} marc_ingester.transform(record=third_record, item_uri=item_iri)</kbd><br>
+    Finally print the serialized <code>marc_ingester.graph</code> in Turtle:<br>
+    <pre class="bg-inverse rounded" style="color: white"><code>{{ py_prompt|safe }} print(marc_ingester.graph.serialize(format='turtle').decode())
+@prefix bc: &lt;http://knowledgelinks.io/ns/bibcat/&gt; .
+@prefix bf: &lt;http://id.loc.gov/ontologies/bibframe/&gt; .
+@prefix kds: &lt;http://knowledgelinks.io/ns/data-structures/&gt; .
+@prefix loc: &lt;http://id.loc.gov/authorities/&gt; .
+@prefix m21: &lt;http://knowledgelinks.io/ns/marc21/&gt; .
+@prefix owl: &lt;http://www.w3.org/2002/07/owl#&gt; .
+@prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; .
+@prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt; .
+@prefix relators: &lt;http://id.loc.gov/vocabulary/relators/&gt; .
+@prefix schema: &lt;http://schema.org/&gt; .
+@prefix skos: &lt;http://www.w3.org/2004/02/skos/core#&gt; .
+@prefix void: &lt;http://rdfs.org/ns/void#&gt; .
+@prefix xml: &lt;http://www.w3.org/XML/1998/namespace&gt; .
+@prefix xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt; .
+
+&lt;http://tiger.coloradocollege.edu/record=b1684245&gt; a bf:Item ;
+    bf:barcode [ a bf:Barcode ;
+            rdf:value "33027005249309" ] ;
+    bf:generationProcess [ a bf:GenerationProcess ;
+            bf:generationDate "2017-03-05T15:10:34.526978" ;
+            rdf:value "Generated by BIBCAT version 1.7.5 from KnowledgeLinks.io"@en ] ;
+    bf:heldBy &lt;https://www.coloradocollege.edu/library/&gt; ;
+    bf:itemOf &lt;http://bibcat.org/e133d028-01b5-11e7-94fe-ac87a3129ce6&gt; .
+
+&lt;http://bibcat.org/e133d028-01b5-11e7-94fe-ac87a3129ce6&gt; a bf:Instance ;
+    bf:classification [ a bf:ClassificationLcc ;
+            rdf:value "QA13 .P67 2006" ] ;
+    bf:copyrightDate "c2006." ;
+    bf:dimensions "26 cm." ;
+    bf:extent [ a bf:Extent ;
+            rdf:value "xix, 197 p. :" ] ;
+    bf:generationProcess [ a bf:GenerationProcess ;
+            bf:generationDate "2017-03-05T15:10:34.453103" ;
+            rdf:value "Generated by BIBCAT version 1.7.5 from KnowledgeLinks.io"@en ] ;
+    bf:identifiedBy [ a bf:Isbn ;
+            rdf:value "1412916186 (cloth)",
+                "1412916194 (pbk.)",
+                "9781412916189 (cloth)",
+                "9781412916196 (pbk.)" ] ;
+    bf:instanceOf [ a bf:Work ;
+            bf:originDate "2006" ] ;
+    bf:provisionActivity [ a bf:Publication ;
+            relators:pbl "Corwin Press," ] ;
+    bf:subject [ a bf:Topic ;
+            rdf:value "Mathematics United States." ] ;
+    bf:supplementaryContent [ a bf:SupplementaryContent ;
+            rdf:value "Includes bibliographical references (p. 183-191) and index." ] ;
+    bf:tableOfContents [ a bf:TableOfContents ;
+            rdf:value "Managing your classroom -- Enhancing teaching techniques -- Facilitating student learning -- Assessing student progress -- Teaching problem solving -- Considering social aspects in teaching mathematics." ] ;
+    bf:title [ a bf:InstanceTitle ;
+            bf:mainTitle "What successful math teachers do, grades 6-12 :" ;
+            bf:subtitle "79 research-based strategies for the standards-based classroom /" ] ;
+    relators:aut [ a bf:Person ;
+            schema:name "Posamentier, Alfred S." ] .
+
+
+    </code></pre>
     </li>
     </ol>
+    <h2 id="multiple">Processing Multiple Records</h2>
+    <p class="lead">In the final exercise, we will process the remaining MARC records and adding 
+    each output graph to a master graph that we will then save</p>
+    <ol class="lead">
+        <li>First create an empty RDF graph<br>
+        <kbd>{{ py_prompt|safe }} master_graph = rdflib.Graph()</kbd><br>
+        </li>
+        <li>Use a <code>for</code> loop to iterate through the remaining MARC records in
+        the reader<br>
+        <pre class="bg-inverse rounded" style="color: white"><code>{{ py_prompt|safe }} for record in reader:
+	item_iri = generate_item_iri(record)
+	marc_ingester.transform(record=record, item_uri=item_iri)
+	master_graph += marc_ingester.graph
+	print(".", end="")
+..................................................................................
+..................................................................
+        </code></pre>
+        </li>
+        <li>Save the <code>master_graph</code> in a new output directory in your RDF application directory<br>
+        <pre class="bg-inverse rounded" style="color: white"><code>{{ py_prompt|safe }} mkdir output
+{{ py_prompt|safe }} with open("/tmp/rdf-app/output/cc-150-sample.ttl", 'wb+') as fo:
+	fo.write(master_graph.serialize(format='turtle'))
+
+	
+266918
+        </code></pre>
+        </li>
+    </ol>
+
 <h2>Used in &hellip;</h2>
-<div class="jumbotron">
+<div class="jumbotron" id="example">
 <div class="row">
     <div class="col-md-4 offset-md-1">
         {% include 'cards/bibcat-coalliance.html' %}
@@ -281,8 +552,66 @@ kds:linkedClass bf:Instance .
                 blank node that has a class of <code>bf:InstanceTitle</code> with the value 
                 extracted from the MARC record in the blank node's <code>bf:mainTitle</code> 
                 predicate. The mapping from the MARC record starts with the <code>kds:srcPropUri</code>
-                predicate that's RDF object is a IRI inspired by the rda mappings to MARC being 
-                done by &hellip;.</p>
+                predicate that's RDF object is a IRI inspired by the RDA mappings to MARC being 
+                done by Open Metadata registry's 
+                <a href="http://rdvocab.info/">http://rdvocab.info/</a>.
+                </p>
+                <p>For fixed MARC fields, for example <code>m21:M00807-10</code>, the 
+                URL portion <code>M00807-10</code> is broken down</p>
+                <table class="table table-border">
+                    <thead>
+                        <tr>
+                            <th>Example</th>
+                            <th>Record type</th>
+                            <th>MARC Field</th>
+                            <th>Starting position</th>
+                            <th>Spanning character</th>
+                            <th>Ending position</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>M00807-10</th>
+                            <td>M</td>
+                            <td>008</td>
+                            <td>07</td>
+                            <td>-</td>
+                            <td>10</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>In the <code>m21:M24500a</code> IRI, the <code>M24500a</code> URL portion is
+                broken down like this for variable MARC fields:
+                <table class="table table-border">
+                    <thead>
+                        <tr>
+                            <th>Example</th>
+                            <th>Record type</th>
+                            <th>MARC Field</th>
+                            <th>First Indicator</th>
+                            <th>Second Indicator</th>
+                            <th>Subfield(s)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>M24500a</th>
+                            <td>M</td>
+                            <td>245</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>a</td>
+                        </tr>
+                        <tr>
+                            <th>M1000_a</a>
+                            <td>M</td>
+                            <td>245</td>
+                            <td>0</td>
+                            <td>_ (undefined)</td>
+                            <td>a</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

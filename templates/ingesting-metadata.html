@@ -2,10 +2,18 @@
 
 {% set category='activity' %}
 
+{% block custom_css %}
+<style>
+.code_text {
+    color: white ;
+}
+</style>
+{% endblock %}
+
 {% block main %}
 <h2>{{ title }}</h2>
 <h1>Ingesting Metadata</h1>
-<div class="row">
+{#<div class="row">
     <div class="col-md-3">
         <h3>Source Metadata</h3>
         <a href="#mods-marmot" data-toggle="modal"> 
@@ -33,7 +41,338 @@ bc:bf-itemHeldBy a kds:PropertyLinker;
     <div class="col-md-4">
         <h3>BIBFRAME 2.0 Entities</h3>
     </div>
+</div>#}
+{% set py_prompt = 3*'&gt;' %}
+<div class="row">
+    <div class="col-md-8">
+        <p class="lead">In this activity we will use different BIBCAT ingesters for three different vocabularies from
+        different different formats. We will first use the <code>MODSIngester</code> Class wth an remote Islandora Repository
+        along with a brief look at the <code>IslandoraIngester</code> a subclass of the <code>OAIIngester</code> Class, 
+        second we will work with ContentDM export of Dublin Core metadata with the <code>DCIngester</code> Class, and finally 
+        we will look at a CSV file of manually entered metadata to use the <code>RowIngester</code> Class. </p>
+    </div>
+    <div class="col-md-4">
+        <h3>Exercises</h3>
+        <ul>
+            <li><a href="#single-marc">Ingesting a Remote MODS File</a></li>
+            <li><a href="#islandora-oai_pmh">Islandora OAI-PMH Ingester</a></li>
+
+        </ul>
+    </div>
 </div>
+<h2 id="single-marc">Ingesting a Remote MODS File</h2>
+{% set cc_url = "https://digitalcc.coloradocollege.edu/islandora/object/coccc:10797/datastream/MODS" %}
+{% set cc_iri = "https://digitalcc.coloradocollege.edu/islandora/object/coccc:10797/" %}
+<ol class="lead">
+    <li>In an active Python session, import the <code>requests</code> module<br>
+    <kbd>{{ py_prompt|safe }} import requests</kbd><br>
+    And import the <code>MODSIngester</code> Class<br>
+    <kbd>{{ py_prompt|safe }} from bibcat.ingesters.mods import MODSIngester</kbd>
+    </li>
+    <li>Using the <code>requests.get</code> method, retrieve the results of getting 
+    this URL from Colorado College's legacy Islandora repository:
+    <a href="{{ cc_url }}"></a>{{ cc_url }}<br>
+            
+    <pre class="bg-inverse rounded code_text"><code>{{ py_prompt|safe }} mods_url = "{{ cc_url }}"
+{{ py_prompt|safe }} mods_result = requests.get(mods_url)
+{{ py_prompt|safe }} mods_result.status_code
+200
+{{ py_prompt|safe }} mods_result.encoding = 'utf-8'
+{{ py_prompt|safe }} raw_xml = mods_result.text
+{{ py_prompt|safe }} print(raw_xml)
+&lt;mods xmlns="http://www.loc.gov/mods/v3" xmlns:mods="http://www.loc.gov/mods/v3" xmlns:schema="http://schema.org/" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" schema:itemtype="CreativeWork"&gt;
+  &lt;titleInfo&gt;
+    &lt;title&gt;Consumption treatment - Dr. Charles Fox Gardiner &lt;/title&gt;
+  &lt;/titleInfo&gt;
+  &lt;titleInfo type="alternative"&gt;
+    &lt;title&gt;Colorado Springs Century Chest Collection, 1901, Ms 0349, Folder 62, Consumption treatment - Dr. Charles Fox Gardiner &lt;/title&gt;
+  &lt;/titleInfo&gt;
+  &lt;name type="personal"&gt;
+    &lt;namePart&gt;Ehrich, Louis R., 1849-1911&lt;/namePart&gt;
+    &lt;role&gt;
+      &lt;roleTerm authority="marcrelator" type="text"&gt;contributor&lt;/roleTerm&gt;
+    &lt;/role&gt;
+  &lt;/name&gt;
+  &lt;name type="personal"&gt;
+    &lt;namePart&gt;Finley, Judith Reid, 1936-&lt;/namePart&gt;
+    &lt;role&gt;
+      &lt;roleTerm authority="marcrelator" type="text"&gt;contributor&lt;/roleTerm&gt;
+    &lt;/role&gt;
+  &lt;/name&gt;
+  &lt;typeOfResource&gt;mixed material&lt;/typeOfResource&gt;
+  &lt;originInfo&gt;
+    &lt;dateCreated keyDate="yes"&gt;1901&lt;/dateCreated&gt;
+    &lt;publisher&gt;&lt;/publisher&gt;
+    &lt;place&gt;
+      &lt;placeTerm&gt;Colorado Springs, Colorado&lt;/placeTerm&gt;
+    &lt;/place&gt;
+    &lt;place&gt;
+      &lt;placeTerm type="text"&gt;&lt;/placeTerm&gt;
+    &lt;/place&gt;
+    &lt;dateIssued&gt;&lt;/dateIssued&gt;
+    &lt;copyrightDate&gt;&lt;/copyrightDate&gt;
+    &lt;dateOther&gt;&lt;/dateOther&gt;
+    &lt;dateCaptured&gt;2015&lt;/dateCaptured&gt;
+    &lt;frequency&gt;&lt;/frequency&gt;
+  &lt;/originInfo&gt;
+  &lt;abstract&gt;Historic documentation of life at the turn of the 19th century created by residents of Colorado Springs, Colorado in 1901 for the citizens of 2001.  Under the direction of Louis R. Ehrich, a prominent 19th century businessman, the items were sealed in a chest which was stored in various buildings on the Colorado College campus until the official opening January 1, 2001 at the Charles Leaming Tutt Library.  Contents of Ms349, Fd 62, Consumption treatment - Dr. Charles Fox Gardiner include: 1 printed chart “Illustrating Dr. Charles Fox Gardiner’s Paper on Light and Air in the Treatment of Consumption in Colorado.”; 1 printed page “Diet List for Pulmonary Invalids with Fair Digestion” by Dr. Gardiner; 1 printed copy of article “Light and Air in the Treatment of Consumption in Colorado” by Dr. Gardiner, reprinted from The Medical News, July 22, 1899; 1 printed copy of “the Dangers of Tubercular Infection and Their Partial Arrest by Climatic Influences” by Dr. Gardiner, reprinted from The American Journal of the Medical Sciences, February, 1898; 1 b&amp;w photo “Charles Fox Gardiner, M. D., aged 40 years.”; 1 5-page, handwritten letter, dated August 3, 1901, addressed “To My Professional Brothers of the Year 2001” signed by Charles Fox Gardiner, including genealogical information on backside of last page.  
+&lt;/abstract&gt;
+  &lt;note type="admin"&gt;Title supplied by cataloger.&lt;/note&gt;
+  &lt;language type="text"&gt;
+    &lt;languageTerm&gt;English&lt;/languageTerm&gt;
+  &lt;/language&gt;
+  &lt;genre authority="marcgt"&gt;&lt;/genre&gt;
+  &lt;physicalDescription&gt;
+    &lt;genre&gt;letter&lt;/genre&gt;
+    &lt;digitalOrigin&gt;reformatted digital&lt;/digitalOrigin&gt;
+    &lt;extent&gt;&lt;/extent&gt;
+    &lt;form&gt;&lt;/form&gt;
+    &lt;note&gt;&lt;/note&gt;
+  &lt;/physicalDescription&gt;
+  &lt;subject&gt;
+    &lt;topic&gt;Time capsules&lt;/topic&gt;
+  &lt;/subject&gt;
+  &lt;subject&gt;
+    &lt;topic&gt;History&lt;/topic&gt;
+  &lt;/subject&gt;
+  &lt;subject&gt;
+    &lt;topic&gt;Correspondence&lt;/topic&gt;
+  &lt;/subject&gt;
+  &lt;subject&gt;
+    &lt;topic&gt;Pictorial works&lt;/topic&gt;
+  &lt;/subject&gt;
+  &lt;subject&gt;
+    &lt;geographic&gt;Colorado&lt;/geographic&gt;
+  &lt;/subject&gt;
+  &lt;subject&gt;
+    &lt;geographic&gt;Colorado Springs (Colo.)&lt;/geographic&gt;
+  &lt;/subject&gt;
+  &lt;accessCondition type="useAndReproduction"&gt; Copyright restrictions apply. Contact Colorado College Special Collections for permission to publish.
+&lt;/accessCondition&gt;
+  &lt;location&gt;
+    &lt;url usage="primary display"&gt;http://hdl.handle.net/10176/coccc:10797&lt;/url&gt;
+  &lt;/location&gt;
+  &lt;name type="personal"&gt;
+    &lt;namePart&gt;Gardiner, Charles Fox, 1857-1947&lt;/namePart&gt;
+    &lt;role&gt;
+      &lt;roleTerm authority="marcrelator" type="text"&gt;creator&lt;/roleTerm&gt;
+    &lt;/role&gt;
+  &lt;/name&gt;
+  &lt;name type="corporate"&gt;
+    &lt;namePart&gt;&lt;/namePart&gt;
+    &lt;role&gt;
+      &lt;roleTerm authority="marcrelator" type="text"&gt;creator&lt;/roleTerm&gt;
+    &lt;/role&gt;
+  &lt;/name&gt;
+  &lt;name type="corporate"&gt;    
+&lt;namePart&gt;&lt;/namePart&gt;
+    &lt;role&gt;
+      &lt;roleTerm authority="marcrelator" type="text"&gt;contributor&lt;/roleTerm&gt; 
+   &lt;/role&gt;
+  &lt;/name&gt;
+  &lt;genre authority="marcgt"&gt;letter&lt;/genre&gt;
+  &lt;genre authority="marcgt"&gt;picture&lt;/genre&gt;
+  &lt;subject&gt;
+    &lt;cartographics&gt;
+      &lt;scale&gt;&lt;/scale&gt;
+    &lt;/cartographics&gt;
+  &lt;/subject&gt;
+  &lt;subject&gt;
+    &lt;cartographics&gt;
+      &lt;coordinates&gt;&lt;/coordinates&gt;
+    &lt;/cartographics&gt;
+  &lt;/subject&gt;
+  &lt;targetAudience&gt;&lt;/targetAudience&gt;
+  &lt;note&gt;&lt;/note&gt;
+  &lt;note type="admin"&gt;Alternative Title derived from Colorado Springs Century Chest Collection, 1901, Ms 0349 finding aid, January 23, 2015.&lt;/note&gt;
+  &lt;note type="admin"&gt;Transcription of letter by Judith Reid Finley.&lt;/note&gt;
+  &lt;note type="admin"&gt;Documents originally digitized in JPEG format. JPEG document files were converted to PDF format in 2015.&lt;/note&gt;
+  &lt;note type="funding"&gt;&lt;/note&gt;
+  &lt;subject&gt;
+    &lt;topic&gt;Medicine&lt;/topic&gt;
+  &lt;/subject&gt;
+  &lt;subject&gt;
+    &lt;topic&gt;Tuberculosis&lt;/topic&gt;
+  &lt;/subject&gt;
+  &lt;subject&gt;
+    &lt;temporal&gt;1901&lt;/temporal&gt;
+  &lt;/subject&gt;
+  &lt;subject&gt;
+    &lt;name type="personal"&gt;
+      &lt;namePart&gt;&lt;/namePart&gt;
+    &lt;/name&gt;
+  &lt;/subject&gt;
+  &lt;subject&gt;
+    &lt;name type="personal"&gt;
+      &lt;namePart&gt;Gardiner, Charles Fox, 1857-1947&lt;/namePart&gt;
+    &lt;/name&gt;
+  &lt;/subject&gt;
+  &lt;subject&gt;
+    &lt;name type="personal"&gt;
+      &lt;namePart&gt;Ehrich, Louis R., 1849-1911&lt;/namePart&gt;
+    &lt;/name&gt;
+  &lt;/subject&gt;
+  &lt;subject&gt;
+    &lt;name type="corporate"&gt;
+      &lt;namePart&gt;&lt;/namePart&gt;
+    &lt;/name&gt;
+  &lt;/subject&gt;
+  &lt;subject&gt;
+    &lt;genre&gt;&lt;/genre&gt;
+  &lt;/subject&gt;
+  &lt;relatedItem type="host"&gt;
+    &lt;titleInfo&gt;
+      &lt;title&gt;Colorado Springs Century Chest Collection, 1901&lt;/title&gt;
+    &lt;/titleInfo&gt;
+  &lt;/relatedItem&gt;
+  &lt;relatedItem type="constituent"&gt;
+    &lt;titleInfo&gt;
+      &lt;title&gt;&lt;/title&gt;
+    &lt;/titleInfo&gt;
+  &lt;/relatedItem&gt;
+  &lt;relatedItem type="series"&gt;
+    &lt;titleInfo&gt;
+      &lt;title&gt;&lt;/title&gt;
+    &lt;/titleInfo&gt;
+  &lt;/relatedItem&gt;
+  &lt;relatedItem type="preceding"&gt;
+    &lt;titleInfo&gt;
+      &lt;title&gt;&lt;/title&gt;
+    &lt;/titleInfo&gt;
+  &lt;/relatedItem&gt;
+  &lt;relatedItem type="succeeding"&gt;
+    &lt;titleInfo&gt;
+      &lt;title&gt;&lt;/title&gt;
+    &lt;/titleInfo&gt;
+  &lt;/relatedItem&gt;
+  &lt;identifier type="local"&gt;Ms 0349, Fd 62&lt;/identifier&gt;
+  &lt;identifier type="isbn"&gt;&lt;/identifier&gt;
+  &lt;identifier type="issn"&gt;&lt;/identifier&gt;
+  &lt;recordInfo&gt;
+    &lt;languageOfCataloging&gt;
+      &lt;languageTerm authority="iso639-2b" type="text"&gt;English&lt;/languageTerm&gt;
+      &lt;languageTerm authority="iso639-2b" type="code"&gt;eng&lt;/languageTerm&gt;
+    &lt;/languageOfCataloging&gt;
+  &lt;/recordInfo&gt;
+&lt;/mods&gt;
+
+    </code></pre>
+    </li>
+    {% set cc_iri = "https://digitalcc.coloradocollege.edu/islandora/object/coccc:10797/" %}
+    <li>Create a <code>MODSIngester</code> Class instance using the default MODS rules<br>
+    <kbd>{{ py_prompt|safe }} mods_ingester = MODSIngester() </kbd><br>
+    Use <a href="{{ cc_iri }}">{{ cc_iri }}</a> as the item_iri<br>
+    <kbd>{{ py_prompt|safe }} item_iri = rdflib.URIRef("{{ cc_iri }}")</kbd>
+    </li>
+    <li>Transform the <code>raw_xml</code> with the<code>item_iri</code><br>
+    <kbd>{{ py_prompt|safe }} mods_ingester.transform(xml=raw_xml, item_uri=item_iri)</kbd>
+    </li>
+    <li>Print the serialized <code>mods_ingester.graph</code> in Turtle format<br>
+    <pre class="bg-inverse rounded code_text"><code>{{ py_prompt|safe }} print(mods_ingester.graph.serialize(format='turtle').decode())
+@prefix bc: &lt;http://knowledgelinks.io/ns/bibcat/&gt; .
+@prefix bf: &lt;http://id.loc.gov/ontologies/bibframe/&gt; .
+@prefix kds: &lt;http://knowledgelinks.io/ns/data-structures/&gt; .
+@prefix loc: &lt;http://id.loc.gov/authorities/&gt; .
+@prefix m21: &lt;http://knowledgelinks.io/ns/marc21/&gt; .
+@prefix owl: &lt;http://www.w3.org/2002/07/owl#&gt; .
+@prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; .
+@prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt; .
+@prefix relators: &lt;http://id.loc.gov/vocabulary/relators/&gt; .
+@prefix schema: &lt;http://schema.org/&gt; .
+@prefix skos: &lt;http://www.w3.org/2004/02/skos/core#&gt; .
+@prefix void: &lt;http://rdfs.org/ns/void#&gt; .
+@prefix xml: &lt;http://www.w3.org/XML/1998/namespace&gt; .
+@prefix xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt; .
+
+&lt;https://digitalcc.coloradocollege.edu/islandora/object/coccc:10797/&gt; a bf:Item ;
+    bf:electronicLocation &lt;http://hdl.handle.net/10176/coccc:10797&gt; ;
+    bf:generationProcess [ a bf:GenerationProcess ;
+            bf:generationDate "2017-03-05T17:01:55.320898" ;
+            rdf:value "Generated by BIBCAT version 1.7.5 from KnowledgeLinks.io"@en ] ;
+    bf:itemOf &lt;http://bibcat.org/6ee82e34-01c5-11e7-9ebd-ac87a3129ce6&gt; .
+
+&lt;http://bibcat.org/6ee82e34-01c5-11e7-9ebd-ac87a3129ce6&gt; a bf:Instance ;
+    bf:contributor &lt;http://bibcat.org/6fc909c2-01c5-11e7-9248-ac87a3129ce6&gt;,
+        &lt;http://bibcat.org/6fccc5da-01c5-11e7-876d-ac87a3129ce6&gt; ;
+    bf:generationProcess [ a bf:GenerationProcess ;
+            bf:generationDate "2017-03-05T17:01:55.285548" ;
+            rdf:value "Generated by BIBCAT version 1.7.5 from KnowledgeLinks.io"@en ] ;
+    bf:genreForm [ a bf:GenreForm ;
+            rdf:value "picture" ],
+        [ a bf:GenreForm ;
+            rdf:value "letter" ] ;
+    bf:instanceOf [ a bf:Work ;
+            bf:geographicCoverage "Colorado",
+                "Colorado Springs (Colo.)" ;
+            bf:originPlace "Colorado Springs, Colorado" ] ;
+    bf:language [ a bf:Language ;
+            rdf:value "English" ] ;
+    bf:note [ a bf:Note ;
+            bf:noteType "admin"@en ;
+            rdf:value "Title supplied by cataloger." ],
+        [ a bf:Note ;
+            bf:noteType "admin"@en ;
+            rdf:value "Documents originally digitized in JPEG format. JPEG document files were converted to PDF format in 2015." ],
+        [ a bf:Note ;
+            bf:noteType "admin"@en ;
+            rdf:value "Alternative Title derived from Colorado Springs Century Chest Collection, 1901, Ms 0349 finding aid, January 23, 2015." ],
+        [ a bf:Note ;
+            bf:noteType "admin"@en ;
+            rdf:value "Transcription of letter by Judith Reid Finley." ] ;
+    bf:provisionActivity [ a bf:Publication ;
+            bf:Publisher [ a bf:Organization ] ] ;
+    bf:subject [ a bf:Topic ;
+            rdf:value "Pictorial works" ],
+        [ a bf:Topic ;
+            rdf:value "Time capsules" ],
+        [ a bf:Topic ;
+            rdf:value "Medicine" ],
+        [ a bf:Temporal ;
+            rdf:value "1901" ],
+        [ a bf:Topic ;
+            rdf:value "Correspondence" ],
+        [ a bf:Topic ;
+            rdf:value "Tuberculosis" ],
+        [ a bf:Topic ;
+            rdf:value "History" ],
+        &lt;http://bibcat.org/6fc909c2-01c5-11e7-9248-ac87a3129ce6&gt;,
+        &lt;http://bibcat.org/6fce77cc-01c5-11e7-b3b6-ac87a3129ce6&gt; ;
+    bf:summary [ a bf:Summary ;
+            rdf:value """Historic documentation of life at the turn of the 19th century created by residents of Colorado Springs, Colorado in 1901 for the citizens of 2001.  Under the direction of Louis R. Ehrich, a prominent 19th century businessman, the items were sealed in a chest which was stored in various buildings on the Colorado College campus until the official opening January 1, 2001 at the Charles Leaming Tutt Library.  Contents of Ms349, Fd 62, Consumption treatment - Dr. Charles Fox Gardiner include: 1 printed chart “Illustrating Dr. Charles Fox Gardiner’s Paper on Light and Air in the Treatment of Consumption in Colorado.”; 1 printed page “Diet List for Pulmonary Invalids with Fair Digestion” by Dr. Gardiner; 1 printed copy of article “Light and Air in the Treatment of Consumption in Colorado” by Dr. Gardiner, reprinted from The Medical News, July 22, 1899; 1 printed copy of “the Dangers of Tubercular Infection and Their Partial Arrest by Climatic Influences” by Dr. Gardiner, reprinted from The American Journal of the Medical Sciences, February, 1898; 1 b&w photo “Charles Fox Gardiner, M. D., aged 40 years.”; 1 5-page, handwritten letter, dated August 3, 1901, addressed “To My Professional Brothers of the Year 2001” signed by Charles Fox Gardiner, including genealogical information on backside of last page.  
+""" ] ;
+    bf:title [ a bf:VarientTitle ;
+            bf:mainTitle "Colorado Springs Century Chest Collection, 1901, Ms 0349, Folder 62, Consumption treatment - Dr. Charles Fox Gardiner " ],
+        [ a bf:InstanceTitle ;
+            bf:mainTitle "Colorado Springs Century Chest Collection, 1901, Ms 0349, Folder 62, Consumption treatment - Dr. Charles Fox Gardiner " ],
+        [ a bf:InstanceTitle ;
+            bf:mainTitle "Consumption treatment - Dr. Charles Fox Gardiner " ] ;
+    relators:cre &lt;http://bibcat.org/6fce77cc-01c5-11e7-b3b6-ac87a3129ce6&gt; .
+
+&lt;http://bibcat.org/6fccc5da-01c5-11e7-876d-ac87a3129ce6&gt; a bf:Person ;
+    rdfs:label "Finley, Judith Reid, 1936-" .
+
+&lt;http://bibcat.org/6fc909c2-01c5-11e7-9248-ac87a3129ce6&gt; a bf:Person ;
+    rdfs:label "Ehrich, Louis R., 1849-1911" .
+
+&lt;http://bibcat.org/6fce77cc-01c5-11e7-b3b6-ac87a3129ce6&gt; a bf:Person ;
+    rdfs:label "Gardiner, Charles Fox, 1857-1947" .
+
+    </code></pre>
+    </li>
+</ol>
+<h2 id="islandora-oai_pmh">Islandora OAI-PMH Ingester</h2>
+{% set state_pubs_url = "http://hermes.cde.state.co.us/drupal/" %}
+<ol class="lead">
+    <li>Import the <code>IslandoraIngester</code> Class  the <code>oai_pmh</code>
+    Module<br>
+    <kbd>{{ py_prompt|safe }} from bibcat.ingesters.oai_pmh import IslandoraIngester</kbd>
+    </li>
+    <li>We will use the Colorado State Publications Library's repository
+    at <a href="{{ cc_oai_url }}">{{ cc_oai_url }}</a> when creating an
+    <code>IslandoraIngester</code> instance.
+    <br>
+    <kbd>{{ py_prompt|safe }} islandora_ingester = IslandoraIngester(repository="{{ state_pubs_url }}")</kbd>
+</ol>
 <h3>Used in &hellip;</h3>
 <div class="row jumbotron">
     <div class="col-md-4">
