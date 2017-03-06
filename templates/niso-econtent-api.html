@@ -5,6 +5,16 @@
 {% block main %}
 <h2>{{ title }}</h2>
 <h1>NISO E-Content API</h1>
-
+<img src="{{ url_for('static', filename='images/niso-logo.png') }}" class="pull-left">
+<p class="lead">
+    The  National Information Standards Organization (NISO) started a working group
+    to improve and modernize access to digital resources and other library collections
+    through the development of a standard API for library systems interoperability. 
+    Jeremy Nelson is a member of the NISO E-Content API working group. 
+</p>
+<p class="lead">
+    While still very much in the early stages, our plan is to use the Catalog 
+    Pull Platform and BIBCAT in particular to support testing and prototyping this
+    new NISO e-content API.
+</p>
 {% endblock main %}
-

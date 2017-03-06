@@ -1,0 +1,42 @@
+@prefix bc: <http://knowledgelinks.io/ns/bibcat/> .
+@prefix bf: <http://id.loc.gov/ontologies/bibframe/> .
+@prefix kds: <http://knowledgelinks.io/ns/data-structures/> .
+@prefix kdr: <http://knowledgelinks.io/ns/data-resources/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix relators: <http://id.loc.gov/vocabulary/relators/> .
+@prefix m21: <http://knowledgelinks.io/ns/marc21/> .
+@prefix schema: <http://schema.org/> .
+@prefix loc: <http://id.loc.gov/authorities/> .
+    
+bc:csv-Title a kds:PropertyLinker ;
+    kds:srcPropKey "title" ;
+    kds:destPropUri bf:mainTitle;
+    kds:destClassUri bf:InstanceTitle;
+    kds:linkedRange bf:title;
+    kds:linkedClass bf:Instance . 
+
+bc:csv-author a kds:PropertyLinker ;
+    kds:srcPropKey "author" ;
+    kds:destClassUri bf:Person ;
+    kds:destPropUri rdfs:label ;
+    kds:linkedRange relators:cre ;
+    kds:linkedClass bf:Instance .
+
+bc:csv-barcode a kds:PropertyLinker;
+    kds:srcPropKey "barcode" ;
+    kds:destPropUri rdf:value ;
+    kds:destClassUri bf:Barcode ;
+    kds:linkedRange bf:barcode ;
+    kds:linkedClass bf:Item .
+
+bc:csv-subjects a kds:PropertyLinker ;
+    kds:srcPropKey "subjects" ;
+    kds:delimiterProp ";" ;
+    kds:hasIndividualNodes "true" ; 
+    kds:destClassUri bf:Topic ;
+    kds:destPropUri rdf:value ;
+    kds:linkedRange bf:subject ;
+    kds:linkedClass bf:Instance .

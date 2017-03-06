@@ -16,7 +16,6 @@
         <h3>Project Timeline</h3>
         <article class="jumbotron" id="ccetd-history-1">
             <h2>2011-2012</h2>
-            <h3>Build</h3>
                 <p class="lead">
                     This project originally started as part of <a href="https://www.djangoproject.com/">Django</a>-based 
                     Discovery Layer <a href="https://github.com/jermnelson/Discover-Aristotle">Aristotle</a> project. 
@@ -31,48 +30,29 @@
                     MODS metadata that needed to be included in the student's thesis that was stored on a Fedora-based
                     repository hosted by the Colorado Alliance of Research Libraries. 
                 </p>
-
-            <h3>Measure</h3>
-                <p class="lead">
-                   The first year of self-submission of thesis result in   
-                </p>
-            <h3>Learn</h3>
-                <p class="lead">
-
-                </p>
+                <p>Students used their library card number to authenticate to the thesis application; 
+                however, problems were encountered when student's changed the IDs. </p>
         </article>
         <article class="jumbotron" id="ccetd-history-2">
             <h2>2012-2014</h2>
-            <h3>Build</h3>
-                <p class="lead">
-                </p>
-            <h3>Measure</h3>
-                <p class="lead">
-
-                </p>
-            <h3>Learn</h3>
-                <p class="lead">
-
-                </p>
+            <p class="lead">During this time period, minor changes were made to application including 
+            sending an email to the student's thesis advisor and the departmental administrative assistant
+            as well as the student.</p>
+            <p>The most common problem was authentication to the thesis application because of changing
+                IDs or they had never used the 
+                library during their undergraduate career and activated their library card.</p>
         </article>
         <article class="jumbotron" id="ccetd-history-3">
             <h2>2014-2015</h2>
-            <h3>Build</h3>
                 <p class="lead">
-                
-                </p>
-            <h3>Measure</h3>
-                <p class="lead">
-
-                </p>
-            <h3>Learn</h3>
-                <p class="lead">
-
+                    During this time period a major refactoring occurred to migrate the application from 
+                    Django to Flask. The underlying workflow structured as <code>ini</code> files was 
+                    retained and the all of the templates were migrated to <a href="http://jinja.pocoo.org/">Jina2</a>.
+                    Forms were migrated from the Django framework to use <a href="https://wtforms.readthedocs.io/en/latest/">wtforms</a>
                 </p>
         </article>
         <article class="jumbotron" id="ccetd-history-4">
             <h2>2016-2017</h2>
-            <h3>Build</h3>
                 <p class="lead">
                     The latest iteration of CCETD Application uses Colorado 
                     College's new institutional 
@@ -85,15 +65,7 @@
                     single-signon campus credentials for authenticating to this RDF
                     application.
                 </p>
-            <h3>Measure</h3>
-                <p class="lead">
-
-                </p>
-            <h3>Learn</h3>
-                <p class="lead">
-
-                </p>
-        </article>
+         </article>
     </div>
     <div class="col-md-4">
         {% include 'cards/cc-etd.html' %}

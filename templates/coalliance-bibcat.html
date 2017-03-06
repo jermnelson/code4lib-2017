@@ -106,17 +106,36 @@
                 </ul>
             <h3>Learn</h3>
                 <p class="lead">
-                    A SEO expert should have been involved in at least 
+                    Ad hoc SEO is more difficult then it initially appears, over the course of the first iteration, we
+                    changed the appearance of the detail page because it was showing up the Google search results and we
+                    wanted to emphasize the library's respective catalog by embedding the page in an <code>iframe</code>.
                 </p>
                 <div class="alert alert-danger lead">
-                    <strong>Check robots.txt</strong>
+                    <strong>Check robots.txt!!</strong> We were curious when doing a testing on search engines that the Alliance
+                    URLs were showing up but not the Instance IRIs to the respective institution's catalogs. We discovered that the 
+                    catalog vendor (both Colorado College and University of Colorado Boulder have the same ILS vendor) has disallowed
+                    search engines from indexing the records in the catalog. 
                 </div>
         </article>
         <article class="jumbotron" id="coalliance-bibcat-bml-2">
             <h2>BML Iteration Two</h2>
             <h3>Build</h3>
-            <h3>Measure</h3>
-            <h3>Learn</h3>
+            <p class="lead">We are currently defining what features to add to the Alliance BIBCAT
+            project for the second development iteration.</p>
+            <ul>
+                <li>Change how URLs for BF Instances are constructed; instead of using a random UUID
+                we will plan on creating more friendly SEO URLs by using the <code>bf:InstanceTitle</code>
+                and "slugify" the title.</li>
+                <li>Instead of depending on the vendor's to open up their catalogs for indexing, we are 
+                going to mint new <code>bf:Item</code> IRIs using the slugified approach and include 
+                a notation in the slug of what institution holds the item.</li>
+                <li>A new <code>bf:Instance</code> view will have links out to the all of <code>bf:Item</code>
+                entities and each <code>bf:Item</code> may include an embedded Google Map to the institution 
+                holding the <code>bf:Item</code></li>
+                <li>De-duplication of the <code>bf:Instance</code> entities will occur through the use of
+                a prior match key the Alliance uses for their Gold Rush product</li>
+
+            </ul>
         </article>
     </div>
     <div class="col-md-3">
@@ -129,7 +148,7 @@
                 <h4 class="card-title" itemprop="name">George Machovec</h4>
                 <p class="card-text" itemprop="description">
                 George Machovec is the Executive Director of Colorado Alliance of Research
-                Libraries and was instrumental in initiating this project starting with 
+                Libraries and was instrumental in initiating this project starting with in
                 two members of the consortium with plans to extend to the entire membership.
                 </p>
                 <a href="mailto:george@coalliance.org" class="btn btn-primary">

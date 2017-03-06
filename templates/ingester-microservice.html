@@ -3,8 +3,143 @@
 {% set category='activity' %}
 
 {% block main %}
+{% set py_prompt = 3*'&gt;' %}
 <h2>{{ title }}</h2>
 <h1>Ingester Microservice</h1>
+<p class="lead">For this last activity, we will extend the <code>MARCIngester</code> and create
+our own ingester Class</p>
+<ol class="lead">
+    <li>Open up your text editor and add a description and your name and import the <code>MARCIngester</code> class
+    <pre class="rounded bg-faded"><code>"""Custom MARC21 Ingester Class"""
+__author__ = "Jeremy Nelson"
 
+import rdflib
+from bibcat.ingesters.marc import MARCIngester
+    </code></pre>
+    </li>
+    <li>Create a new <code>SpecialMARCIngester</code> that extends <code>MARCIngester</code> Class
+    with a overridden <code>__init__</code> method where we set an instance variable.
+    <pre class="rounded bg-faded"><code>
+class SpecialMARCIngester(MARCIngester):
 
+    def __init__(self, **kwargs):
+        self.legacy_ils_pattern = "http://tiger.coloradocollege.edu/record={}"
+        kwargs['custom'] = 'cc-marc.ttl'
+        super(SpecialMARCIngester, self).__init__(**kwargs)
+
+    </code></pre>
+    </li>
+    <li>Taking the <code>generate_item_iri</code> function from the 
+    <a href="{{ url_for('slide', page='ingesting-marc') }}">Ingesting MARC</a> activity,
+    we will now add that function as a method to our <code>SpecialMARCIngester</code>
+    <pre class="rounded bg-faded"><code>
+    def generate_item_iri(self, record):
+        if not '907' in record:
+            return
+        bib_number = record['907']['a'][1:-1]
+        return rdflib.URIRef(self.legacy_ils_pattern.format(bib_number))
+
+    </code></pre>
+    </li>
+    <li>Finally, we will override the <code>transform</code> method to generate the 
+    <code>item_iri</code> before calling the <code>MARCIngester.transform</code>
+    <pre class="rounded bg-faded"><code>
+    def transform(self, record, instance_uri=None, item_uri=None):
+        item_iri = self.generate_item_iri(record)
+        super(SpecialMARCIngester, self).transform(record=record, 
+                                                   instance_uri=instance_uri, 
+                                                   item_uri=item_iri) 
+    </code></pre>
+    </li>
+    <li>Save this python module in your <code>rdf-app</code> directory as <code>special.py</code>
+    </li>
+    <li>Going back to your Python session, import your new module<br>
+    <kbd>{{ py_prompt|safe }} from .special import SpecialMARCIngester</kbd><br> 
+    Extract the next record from the MARC reader<br>
+    <kbd>{{ py_prompt|safe }} fourth_record = next(reader)</kbd><br>
+    Display the MARC Record<br>
+    <pre  class="bg-inverse rounded" style="color: white"><code>print(fourth_record)
+=LDR  01048nam a22003251a 4500
+=001  395428
+=003  OCoLC
+=005  19970819134740.0
+=008  840816s1964\\\\cauac\\\\b\\\\000\0\eng\c
+=010  \\$a64021712 //r84
+=035  \\$a.b12958736$btbp$cr
+=040  \\$aDLC/ICU$cCGU
+=041  1\$aengger
+=049  \\$aCOCA
+=050  0\$aQA21$b.M413
+=090  \\$aQA21.M413
+=100  1\$aMeschkowski, Herbert.
+=240  10$aDenkweisen grosser Mathematiker.$lEnglish.
+=245  10$aWays of thought of great mathematicians :$ban approach to the history of mathematics /$cTranslated by John Dyer-Bennet.
+=260  \\$aSan Francisco :$bHolden-Day,$c1964.
+=300  \\$aviii, 110 p. :$bill., ports. ;$c23 cm.
+=490  1\$aThe Mathesis series.
+=504  \\$aBibliography: p. 105-108.
+=650  \0$aMathematics$xHistory.
+=830  \0$aMathesis series.
+=902  \\$a150104
+=907  \\$a.b12958736
+=945  \\$aQA21.M413$g1$i33027003548553$j0$ltbp  $h0$or$p$0.00$q $r-$s-$t1$u1$v0$w0$x0$y.i13531906$z970819
+=994  \\$atbp
+=999  \\$b2$c970819$dm$ea$fr$g0
+    
+    </code></pre>
+    </li>
+    <li>Create a new instance of special ingester<br>
+    <kbd>{{ py_prompt|safe }} ingester = SpecialMARCIngester()</kbd>
+    </li>
+    <li>Transform the MARC record<br>
+    <kbd>{{ py_prompt|safe }} ingester.transform(fourth_record)</kbd>
+    </li>
+    <li>Display the Turtle serialization of the <code>ingester.graph</code>
+    <pre  class="bg-inverse rounded" style="color: white"><code>
+@prefix bc: &lt;http://knowledgelinks.io/ns/bibcat/&gt; .
+@prefix bf: &lt;http://id.loc.gov/ontologies/bibframe/&gt; .
+@prefix kds: &lt;http://knowledgelinks.io/ns/data-structures/&gt; .
+@prefix loc: &lt;http://id.loc.gov/authorities/&gt; .
+@prefix m21: &lt;http://knowledgelinks.io/ns/marc21/&gt; .
+@prefix owl: &lt;http://www.w3.org/2002/07/owl#&gt; .
+@prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; .
+@prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt; .
+@prefix relators: &lt;http://id.loc.gov/vocabulary/relators/&gt; .
+@prefix schema: &lt;http://schema.org/&gt; .
+@prefix skos: &lt;http://www.w3.org/2004/02/skos/core#&gt; .
+@prefix void: &lt;http://rdfs.org/ns/void#&gt; .
+@prefix xml: &lt;http://www.w3.org/XML/1998/namespace&gt; .
+@prefix xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt; .
+
+ &lt;http://tiger.coloradocollege.edu/record=b1295873&gt; a bf:Item ;
+    bf:generationProcess [ a bf:GenerationProcess ;
+            bf:generationDate "2017-03-06T02:59:42.647374" ;
+            rdf:value "Generated by BIBCAT version 1.7.5 from KnowledgeLinks.io"@en ] ;
+    bf:itemOf &lt;http://dpla.coloradovirtuallibrary.org/f1d684e4-0218-11e7-aaab-a8667f19014b&gt; .
+
+&lt;http://dpla.coloradovirtuallibrary.org/f1d684e4-0218-11e7-aaab-a8667f19014b&gt; a bf:Instance ;
+    bf:copyrightDate "1964." ;
+    bf:dimensions "23 cm." ;
+    bf:extent [ a bf:Extent ;
+            rdf:value "viii, 110 p. :" ] ;
+    bf:generationProcess [ a bf:GenerationProcess ;
+            bf:generationDate "2017-03-06T02:59:42.594217" ;
+            rdf:value "Generated by BIBCAT version 1.7.5 from KnowledgeLinks.io"@en ] ;
+    bf:instanceOf [ a bf:Work ;
+            bf:originDate "1964" ] ;
+    bf:provisionActivity [ a bf:Publication ;
+            relators:pbl "Holden-Day," ] ;
+    bf:seriesStatement "The Mathesis series." ;
+    bf:subject [ a bf:Topic ;
+            rdf:value "Mathematics" ] ;
+    bf:supplementaryContent [ a bf:SupplementaryContent ;
+            rdf:value "Bibliography: p. 105-108." ] ;
+    bf:title [ a bf:InstanceTitle ;
+            bf:mainTitle "Ways of thought of great mathematicians :" ;
+            bf:subtitle "an approach to the history of mathematics /" ] ;
+    relators:aut [ a bf:Person ;
+            schema:name "Meschkowski, Herbert." ] . 
+    </code></pre>
+    </li>
+</ol>
 {% endblock %}
