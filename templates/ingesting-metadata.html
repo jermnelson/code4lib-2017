@@ -13,35 +13,6 @@
 {% block main %}
 <h2>{{ title }}</h2>
 <h1>Ingesting Metadata</h1>
-{#<div class="row">
-    <div class="col-md-3">
-        <h3>Source Metadata</h3>
-        <a href="#mods-marmot" data-toggle="modal"> 
-        <img src="{{ url_for('static', filename='images/mods-logo.png') }}">
-        from<br>
-        <img src="{{ url_for('static', filename='images/marmot-logo.png') }}">
-        </a>
-    </div>
-    <div class="col-md-5">
-        <h3>RDF Transformation Rules</h3>
-        <p class="lead">
-        Standard rule for MODS from BIBCAT's <a href="#">kds-bibcat-mods-ingestion.ttl</a> 
-        </p>
-        <p class="lead">
-        Rule for BF Item from <a href="#">marmot-mods.ttl</a>:
-        </p>
-        <pre><code>
-bc:bf-itemHeldBy a kds:PropertyLinker;
-    kds:destPropUri [ bf:heldBy &lt;http://marmot.org/&gt; ] ;
-    kds:destClassUri bf:Item .
-
-
-        </code></pre>
-    </div>
-    <div class="col-md-4">
-        <h3>BIBFRAME 2.0 Entities</h3>
-    </div>
-</div>#}
 {% set py_prompt = 3*'&gt;' %}
 <div class="row">
     <div class="col-md-8">
@@ -369,10 +340,39 @@ bc:bf-itemHeldBy a kds:PropertyLinker;
     <kbd>{{ py_prompt|safe }} from bibcat.ingesters.oai_pmh import IslandoraIngester</kbd>
     </li>
     <li>We will use the Colorado State Publications Library's repository
-    at <a href="{{ cc_oai_url }}">{{ cc_oai_url }}</a> when creating an
+    at <a href="{{ state_pubs_url }}">{{ state_pubs_url }}</a> when creating an
     <code>IslandoraIngester</code> instance.
     <br>
     <kbd>{{ py_prompt|safe }} islandora_ingester = IslandoraIngester(repository="{{ state_pubs_url }}")</kbd>
+    </li>
+    <li>The <code>OAIPMHIngester</code> is the parent class of the <code>IslandoraIngester</code> and 
+    has an important method <code>harvest</code> that interacts with the OAI PMH feed from a respository. 
+    The <code>harvest</code> method takes an optional parameters, <code>sample_size</code> that if it has
+    a value, a random sample will be generated instead of trying to ingest the entire repository. We
+    will now run the <code>harvest</code> method with a sample size of 150
+    <pre class="bg-inverse rounded code_text"><code>{{ py_prompt|safe }} islandora_ingester.harvest(sample_size=150)
+Starting OAI-PMH harvest of PIDS from Islandora at 2017-03-06 14:53:04.403323
+Started Retrieval of 19961 Identifiers 2017-03-06 14:53:04.882095
+................................................................................
+................................................................................
+................................................................................
+................................................................................
+................................................................................
+................................................................................
+................................................................................
+................................................................................
+................................................................................
+......................................Sample size 150 identifiers size 150
+
+Finished at 2017-03-06 15:00:37.658774, total time 7.533333333333333 minutes
+0..........100....Islandora OAI-PMH harvested at 2017-03-06 15:04:18.372195, 
+total time 11.216666666666667 mins.
+    </code></pre>
+    The <code>IslandoraIngester</code> automatically pushes each record to the Triplestore.
+    </li>
+    
+    <li>Future plans for include deriving three child classes of <code>OAIPMHIngester</code>; a ContentDM
+    ingester, a LibGuides ingester, and an ingester for Hydra based systems.</li>  
 </ol>
 <h2 id="dc-rdf">Ingesting Dublin Core RDF</h2>
 <ol class="lead">
