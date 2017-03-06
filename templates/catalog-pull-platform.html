@@ -74,7 +74,15 @@ various constituencies served by these institutions.
         both default and custom RDF rules that map the incoming data to RDF triples, the ingesters queries the 
         triplestore to de-duplicate <a href="{{ url_for('slide', page='glossary') }}#subject">RDF subjects</a>
         </p>
-
+        <h3>BIBCAT - Linkers and Generators</h3>
+        <p>Besides ingesters, BIBCAT has two other types of Classes called Linkers and Generators. Linkers
+        provide ways to enhance existing BIBFRAME entities by linking them to external sources of RDF linked
+        data like DBPedia and the Library of Congress.<p>
+        <p>The BIBFRAME Work Generator, located in <code>bibcat.generators.work</code>, queries 
+        the triplestore for Instances with missing Works or 
+        works that are blank nodes, and first attempts to resolve the Instance to
+        an existing Work and if that fails, creates a new BIBFRAME Work IRI and properties based the values in 
+        BF Instance.</p>
 
     </div>
 </div>

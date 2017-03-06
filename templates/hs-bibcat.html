@@ -5,9 +5,37 @@
 {% block main %}
 <h2>{{ title }}</h2>
 <h1>Haskell BIBCAT</h1>
-<p class="lead">This is just in the preliminary stages of a
+<img src="{{ url_for('static', filename='images/haskell-logo.png') }}" class="pull-left">
+<p class="lead">In the preliminary stages of a
 functional programming project for BIBCAT being developed in 
-<a href="{{ url_for('slide', page='glossary') }}#haskell">Haskell</a>
+<a href="{{ url_for('slide', page='glossary') }}#haskell">Haskell</a>.
+The inspiration for this work is the <a href="http://pandoc.org/">Pandoc</a>
+project by John MacFarlane that allows you take different document formats such
+as docx, markdown, html, epub and convert them into other formats including 
+PDF, docx, markdown, epub, and markdown among others.
 </p>
-
+<ul class="lead">
+    <li>Haskell has strong graph data structure support built into the
+    language, much of what we're attempt to do with BIBCAT is at a high-level
+    graph manipulation and translation between different graphs. Moving 
+    towards a pure graph implementation will hopefully simplify and speed-up
+    some of the operations in BIBCAT</li>
+    <li>Haskell programs can be complied that along with its graph support,
+    should provide a significant speed boost to the ingester processing from
+    different metadata formats to BIBFRAME and Schema.org RDF</li>
+    <li>Haskell has influenced important features of Python including
+    <em>decorators</em> and now with the release of Python 3.6, Python
+    now has optional typing that is very similar to Haskell's strong 
+    typing support.</li>
+</ul>
+<p class="lead">The Catalog Pull Platform has two active Haskell projects:</p>
+<ul class="lead">
+    <li>A fork of abandoned project on Google Code, the hsmarc project available at 
+    <a href="https://github.com/KnowledgeLinks/hsmarc">https://github.com/KnowledgeLinks/hsmarc</a> 
+    provides operations on MARC21 records.</li>
+    <li>The bibcaths project, available at <a href="https://github.com/KnowledgeLinks/bibcat-hs">https://github.com/KnowledgeLinks/bibcat-hs</a> 
+    is still in it's infancy but the features set will initially include support for converting
+    MARC21, XML, and CSV into BIBFRAME RDF using the same RDF Rules used in the BIBCAT project.
+    </li>
+</ul>
 {% endblock %}
