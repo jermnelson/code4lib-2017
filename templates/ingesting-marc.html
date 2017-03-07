@@ -48,7 +48,7 @@
     <li>
         Create an instance <code>MARCReader</code> class using your own MARC21 file 
         or download the 150 MARC Record sample from Colorado College
-        <a href="{{ url_for('static', filename='mrc/cc-marc-sample.mrc') }}">here</a>.</p>
+        <a href="{{ url_for('static', filename='marc/cc-marc-sample.mrc') }}">here</a>.</p>
         <pre class="bg-inverse rounded" style="color: white"><code>
 {{ py_prompt|safe }} reader = pymarc.MARCReader(
         open("/tmp/rdf-app/cc-marc-sample.mrc", "rb"), 
